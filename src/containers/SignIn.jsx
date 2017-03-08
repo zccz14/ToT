@@ -1,14 +1,24 @@
 import React, {Component} from "react";
 import SignInDialog from "../components/SignInDialog";
+import {connect} from "react-redux";
+import {SignInAction} from "../redux/modules/session";
 
 class SignIn extends Component {
   render() {
     return (
       <div>
-        <SignInDialog onSignIn={console.log}/>
+        <SignInDialog onSignIn={(user, pass) => {
+          this.props.dispatch(SignInAction(user, pass))
+        }}/>
       </div>
     )
   }
 }
 
-export default SignIn;
+function select(state) {
+  return {
+    Session: state.Session
+  };
+}
+
+export default connect(select)(SignIn);

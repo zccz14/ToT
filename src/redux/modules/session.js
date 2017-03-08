@@ -1,7 +1,7 @@
 import Immutable from "immutable";
 import {createAction} from "redux-actions";
 
-export const SignIn = createAction("SIGN_IN", async(username, password) => {
+export const SignInAction = createAction("SIGN_IN", async(username, password) => {
   const res = await fetch('//localhost:8080/users/sign-in', {
     method: 'POST',
     headers: {
@@ -19,14 +19,16 @@ export const SignIn = createAction("SIGN_IN", async(username, password) => {
 
 export const SignInSuccess = createAction("SIGN_IN_SUCCESS");
 
-const initState = Immutable.fromJS({});
+const initState = Immutable.fromJS({
+  errors: []
+});
 
 export default function reducer(state = initState, action) {
   console.log(action);
   switch (action.type) {
     case 'SIGN_IN':
       if (action.error === true) {
-        return state;
+        return state.set('errors', state.get('errors').push(action.payload));
       }
       return state.set('user', Immutable.fromJS(action.payload));
     default:
