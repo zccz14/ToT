@@ -1,9 +1,15 @@
-import {createStore, compose, combineReducers} from "redux";
-import App from "./modules/app";
+import {createStore, compose, combineReducers, applyMiddleware} from "redux";
+import promiseMiddleware from "redux-promise";
+import Session from "./modules/session";
 
-const reducer = combineReducers({App});
+const reducer = combineReducers({
+  Session
+});
 
-const enhancer = compose(window.devToolsExtension ? window.devToolsExtension() : f => f);
+const enhancer = compose(
+  applyMiddleware(promiseMiddleware),
+  (window.devToolsExtension ? window.devToolsExtension() : f => f)
+);
 
 const store = createStore(reducer, enhancer);
 
