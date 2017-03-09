@@ -1,5 +1,6 @@
 .aaaa {
     width: 40%;
+    max-width: 400px;
     height: 400px;
     position: absolute;
     top: 75px;
@@ -24,4 +25,30 @@
 .sign-in-button {
     margin-top: 2em;
     width: 65%;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.flex-item {
+    width: 30%;
+    margin: 15px 1.6%;
+}
+
+@media (max-width: 1024px) {
+    .flex-item {
+        width: 45%;
+        margin: 15px 2.5%;
+    }
+}
+
+@media (max-width: 768px) {
+    .flex-item {
+        width: 70%;
+        margin: 15px 15%;
+    }
 }

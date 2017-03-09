@@ -9,70 +9,84 @@ import {SignInAction} from "../redux/modules/session";
 import Badge from "material-ui/Badge";
 import IconButton from "material-ui/IconButton";
 import NotificationsIcon from "material-ui/svg-icons/social/notifications";
-import {amber700} from 'material-ui/styles/colors';
+import {amber700} from "material-ui/styles/colors";
+import ProblemListCard from "../components/ProblemListCard";
 import "./index.css";
 class Index extends Component {
   render() {
     return (
-      <div className="root-container">
-        <AppBar title="ToT - XJTU Online Judge System" showMenuIconButton={false} iconElementRight={
-          <Badge
-            style={{padding: 0}}
-            badgeContent={'99+'}
-            secondary={true}
-            badgeStyle={{top: 0, right: 0, backgroundColor: amber700}}
-          >
-            <IconButton  tooltip="通知"
-                         style={{paddingTop: 18, paddingBottom: 6}}
+      <div>
+        <Paper className="root-container" zDepth={3}>
+          <AppBar title="ToT - XJTU Online Judge System" showMenuIconButton={false} iconElementRight={
+            <Badge
+              style={{padding: 0}}
+              badgeContent={'99+'}
+              secondary={true}
+              badgeStyle={{top: 0, right: 0, backgroundColor: amber700}}
             >
-              <NotificationsIcon color={'#ffffff'}/>
-            </IconButton>
-          </Badge>
-        }/>
-        <div className="container">
-          <Paper className="aaaa">
-            <Tabs>
-              <Tab label="Sign In">
-                <div className="center">
-                  <TextField
-                    floatingLabelText="Your Username"
-                    ref="usernameSignIn"
-                  />
-                  <br/>
-                  <TextField
-                    floatingLabelText="Your Password"
-                    type="password"
-                    ref="passwordSignIn"
-                  />
-                  <br/>
-                  <RaisedButton
-                    label="Sign In"
-                    primary={true}
-                    className="sign-in-button"
-                    onClick={() => {
-                      this.props.dispatch(SignInAction(this.refs.usernameSignIn.input.value, this.refs.passwordSignIn.input.value))
-                    }}/>
-                </div>
-              </Tab>
-              <Tab label="Sign Up">
-                <div className="center">
-                  <TextField floatingLabelText="Pick a username"/>
-                  <br/>
-                  <TextField floatingLabelText="Your email address"/>
-                  <br/>
-                  <TextField
-                    floatingLabelText="Create a password"
-                    hintText="letter and numeral"
-                    type="password"
-                  />
-                  <br/>
-                  <RaisedButton label="Sign Up" primary={true} className="sign-up-button"/>
-                </div>
-              </Tab>
-            </Tabs>
-          </Paper>
+              <IconButton
+                tooltip="通知"
+                style={{paddingTop: 18, paddingBottom: 6}}
+              >
+                <NotificationsIcon color={'#ffffff'}/>
+              </IconButton>
+            </Badge>
+          }/>
+          <div className="container">
+            <Paper className="aaaa">
+              <Tabs>
+                <Tab label="Sign In">
+                  <div className="center">
+                    <TextField
+                      floatingLabelText="Your Username"
+                      ref="usernameSignIn"
+                    />
+                    <br/>
+                    <TextField
+                      floatingLabelText="Your Password"
+                      type="password"
+                      ref="passwordSignIn"
+                    />
+                    <br/>
+                    <RaisedButton
+                      label="Sign In"
+                      primary={true}
+                      className="sign-in-button"
+                      onClick={() => {
+                        this.props.dispatch(SignInAction(this.refs.usernameSignIn.input.value, this.refs.passwordSignIn.input.value))
+                      }}/>
+                  </div>
+                </Tab>
+                <Tab label="Sign Up">
+                  <div className="center">
+                    <TextField floatingLabelText="Pick a username"/>
+                    <br/>
+                    <TextField floatingLabelText="Your email address"/>
+                    <br/>
+                    <TextField
+                      floatingLabelText="Create a password"
+                      hintText="letter and numeral"
+                      type="password"
+                    />
+                    <br/>
+                    <RaisedButton label="Sign Up" primary={true} className="sign-up-button"/>
+                  </div>
+                </Tab>
+              </Tabs>
+            </Paper>
+          </div>
+        </Paper>
+        <br/>
+        <div className="flex-container">
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
         </div>
-
       </div>
     )
   }
