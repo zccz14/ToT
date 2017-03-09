@@ -1,0 +1,27 @@
+.aaaa {
+    width: 40%;
+    height: 400px;
+    position: absolute;
+    top: 75px;
+    right: 25px;
+    background-color: rgba(255, 255, 255, 0.80) !important;
+}
+
+.container {
+    height: 425px;
+    background: url(http://img.zcool.cn/community/010a3858bfb7cfa801219c77997fee.jpg)
+}
+
+.center {
+    text-align: center;
+}
+
+.sign-up-button {
+    margin-top: 2em;
+    width: 65%;
+}
+
+.sign-in-button {
+    margin-top: 2em;
+    width: 65%;
+}
