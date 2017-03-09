@@ -9,19 +9,22 @@ import {SignInAction} from "../redux/modules/session";
 import Badge from "material-ui/Badge";
 import IconButton from "material-ui/IconButton";
 import NotificationsIcon from "material-ui/svg-icons/social/notifications";
+import {amber700} from 'material-ui/styles/colors';
 import "./index.css";
 class Index extends Component {
   render() {
     return (
-      <div>
+      <div className="root-container">
         <AppBar title="ToT - XJTU Online Judge System" showMenuIconButton={false} iconElementRight={
           <Badge
             style={{padding: 0}}
             badgeContent={'99+'}
             secondary={true}
-            badgeStyle={{top: 25, right: 25}}
+            badgeStyle={{top: 0, right: 0, backgroundColor: amber700}}
           >
-            <IconButton tooltip="通知">
+            <IconButton  tooltip="通知"
+                         style={{paddingTop: 18, paddingBottom: 6}}
+            >
               <NotificationsIcon color={'#ffffff'}/>
             </IconButton>
           </Badge>
