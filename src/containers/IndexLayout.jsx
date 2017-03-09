@@ -6,12 +6,26 @@ import AppBar from "material-ui/AppBar";
 import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
 import {SignInAction} from "../redux/modules/session";
+import Badge from "material-ui/Badge";
+import IconButton from "material-ui/IconButton";
+import NotificationsIcon from "material-ui/svg-icons/social/notifications";
 import "./index.css";
 class Index extends Component {
   render() {
     return (
       <div>
-        <AppBar title="ToT - XJTU Online Judge System" showMenuIconButton={false}/>
+        <AppBar title="ToT - XJTU Online Judge System" showMenuIconButton={false} iconElementRight={
+          <Badge
+            style={{padding: 0}}
+            badgeContent={'99+'}
+            secondary={true}
+            badgeStyle={{top: 25, right: 25}}
+          >
+            <IconButton tooltip="通知">
+              <NotificationsIcon color={'#ffffff'}/>
+            </IconButton>
+          </Badge>
+        }/>
         <div className="container">
           <Paper className="aaaa">
             <Tabs>
@@ -21,6 +35,7 @@ class Index extends Component {
                     floatingLabelText="Your Username"
                     ref="usernameSignIn"
                   />
+                  <br/>
                   <TextField
                     floatingLabelText="Your Password"
                     type="password"
@@ -39,7 +54,9 @@ class Index extends Component {
               <Tab label="Sign Up">
                 <div className="center">
                   <TextField floatingLabelText="Pick a username"/>
+                  <br/>
                   <TextField floatingLabelText="Your email address"/>
+                  <br/>
                   <TextField
                     floatingLabelText="Create a password"
                     hintText="letter and numeral"
