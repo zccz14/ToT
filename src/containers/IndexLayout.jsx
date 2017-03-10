@@ -3,9 +3,8 @@ import {connect} from "react-redux";
 import {Tabs, Tab} from "material-ui/Tabs";
 import Paper from "material-ui/Paper";
 import AppBar from "material-ui/AppBar";
-import TextField from "material-ui/TextField";
-import RaisedButton from "material-ui/RaisedButton";
 import SignInBox from "../components/SignInBox";
+import SignUpBox from "../components/SignUpBox";
 import Badge from "material-ui/Badge";
 import IconButton from "material-ui/IconButton";
 import NotificationsIcon from "material-ui/svg-icons/social/notifications";
@@ -47,6 +46,36 @@ class Index extends Component {
     }).catch(console.log);
   };
 
+  onSignUp = (argSignUp) => {
+    const {dispatch, router} = this.props;
+    co(function*() {
+      dispatch({type: 'SIGN_UP'});
+      const res = yield fetch(URLs.baseURL + '/users/sign-up', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: 'include',
+        body: JSON.stringify(argSignUp)
+      });
+      const data = yield res.json();
+      switch (res.status) {
+        case 200:
+        case 201:
+          // Sign Up Success
+          dispatch({type: 'SIGN_UP_SUCCESS', payload: data});
+          router.push('/dashboard');
+          break;
+        case 400:
+        case 409:
+          // Duplicate
+          dispatch({type: 'SIGN_UP_FAILED', payload: data});
+          break;
+        default:
+      }
+    }).catch(console.log);
+  };
+
   render() {
     return (
       <div>
@@ -73,20 +102,7 @@ class Index extends Component {
                   <SignInBox onSignIn={this.onSignIn}/>
                 </Tab>
                 <Tab label="Sign Up">
-                  <div className="center">
-                    <TextField floatingLabelText="Pick a username"/>
-                    <br/>
-                    <TextField floatingLabelText="Your email address"/>
-                    <br/>
-                    <TextField
-                      floatingLabelText="Create a password"
-                      hintText="letter and numeral"
-                      type="password"
-                    />
-                    <br/>
-                    <RaisedButton
-                      label="Sign Up" primary={true} className="sign-up-button"/>
-                  </div>
+                  <SignUpBox onSignUp={this.onSignUp}/>
                 </Tab>
               </Tabs>
             </Paper>
