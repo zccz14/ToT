@@ -7,7 +7,6 @@ import {connect} from "react-redux"
 import AppBar from "material-ui/AppBar"
 import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
-import Avatar from "material-ui/Avatar"
 
 
 class DashBoard extends Component {
