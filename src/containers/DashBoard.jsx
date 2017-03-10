@@ -1,12 +1,11 @@
-
 /**
  * Created by lqp on 2017/3/9.
  */
-import React,{Component} from "react"
-import {connect} from "react-redux"
-import AppBar from "material-ui/AppBar"
-import Drawer from 'material-ui/Drawer'
-import MenuItem from 'material-ui/MenuItem'
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import AppBar from "material-ui/AppBar";
+import Drawer from "material-ui/Drawer";
+import MenuItem from "material-ui/MenuItem";
 
 
 class DashBoard extends Component {
@@ -15,6 +14,12 @@ class DashBoard extends Component {
   };
   handleToggle = () => this.setState({open: !this.state.open});
   handleClose = () => this.setState({open: false});
+
+  componentWillMount() {
+    if (!this.props.Session.get('user')) {
+      this.props.router.push('/index');
+    }
+  }
 
   render() {
     return (
@@ -40,7 +45,7 @@ class DashBoard extends Component {
 
 function select(state) {
   return {
-    Session: state.session
+    Session: state.Session
   }
 }
 

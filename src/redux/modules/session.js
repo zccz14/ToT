@@ -20,17 +20,20 @@ export const SignInAction = createAction("SIGN_IN", async(username, password) =>
 export const SignInSuccess = createAction("SIGN_IN_SUCCESS");
 
 const initState = Immutable.fromJS({
-  errors: []
+  errors: [],
+  user: null,
+  network: false
 });
 
 export default function reducer(state = initState, action) {
   console.log(action);
   switch (action.type) {
     case 'SIGN_IN':
-      if (action.error === true) {
-        return state.set('errors', state.get('errors').push(action.payload));
-      }
-      return state.set('user', Immutable.fromJS(action.payload));
+      return state.set('network', true);
+    case 'SIGN_IN_SUCCESS':
+      return state.set('user', Immutable.fromJS(action.payload)).set('network', false);
+    case 'SIGN_IN_FAILED':
+      return state.set('user', Immutable.fromJS(null)).set('network', false);
     default:
       return state;
   }

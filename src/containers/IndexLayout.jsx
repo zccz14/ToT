@@ -5,14 +5,46 @@ import Paper from "material-ui/Paper";
 import AppBar from "material-ui/AppBar";
 import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
-import {SignInAction} from "../redux/modules/session";
+import SignInBox from "../components/SignInBox";
 import Badge from "material-ui/Badge";
 import IconButton from "material-ui/IconButton";
 import NotificationsIcon from "material-ui/svg-icons/social/notifications";
 import {amber700} from "material-ui/styles/colors";
 import ProblemListCard from "../components/ProblemListCard";
 import "./index.css";
+import co from "co";
 class Index extends Component {
+  componentWillMount() {
+    if (this.props.Session.get('user')) {
+      this.props.router.push('/dashboard');
+    }
+  }
+
+  onSignIn = (username, password) => {
+    const {dispatch, router} = this.props;
+    co(function*() {
+      const res = yield fetch('//localhost:8080/users/sign-in', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({username, password})
+      });
+      dispatch({type: 'SIGN_IN'});
+      if (res.status === 200) {
+        const data = yield res.json();
+        dispatch({type: 'SIGN_IN_SUCCESS', payload: data});
+        router.push('/dashboard');
+      } else if (res.status === 404) {
+        const data = yield res.json();
+        dispatch({type: 'SIGN_IN_FAILED', payload: data, error: true});
+      } else if (res.status === 403) {
+        const data = yield res.json();
+        dispatch({type: 'SIGN_IN_FAILED', payload: data, error: true});
+      }
+    }).catch(console.log);
+  };
+
   render() {
     return (
       <div>
@@ -36,26 +68,7 @@ class Index extends Component {
             <Paper className="sign-container">
               <Tabs>
                 <Tab label="Sign In">
-                  <div className="center">
-                    <TextField
-                      floatingLabelText="Your Username"
-                      ref="usernameSignIn"
-                    />
-                    <br/>
-                    <TextField
-                      floatingLabelText="Your Password"
-                      type="password"
-                      ref="passwordSignIn"
-                    />
-                    <br/>
-                    <RaisedButton
-                      label="Sign In"
-                      primary={true}
-                      className="sign-in-button"
-                      onClick={() => {
-                        this.props.dispatch(SignInAction(this.refs.usernameSignIn.input.value, this.refs.passwordSignIn.input.value))
-                      }}/>
-                  </div>
+                  <SignInBox onSignIn={this.onSignIn}/>
                 </Tab>
                 <Tab label="Sign Up">
                   <div className="center">
@@ -69,7 +82,8 @@ class Index extends Component {
                       type="password"
                     />
                     <br/>
-                    <RaisedButton label="Sign Up" primary={true} className="sign-up-button"/>
+                    <RaisedButton
+                      label="Sign Up" primary={true} className="sign-up-button"/>
                   </div>
                 </Tab>
               </Tabs>
@@ -78,6 +92,15 @@ class Index extends Component {
         </Paper>
         <br/>
         <div className="flex-container">
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
+          <ProblemListCard/>
           <ProblemListCard/>
           <ProblemListCard/>
           <ProblemListCard/>

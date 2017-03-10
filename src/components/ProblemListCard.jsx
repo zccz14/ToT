@@ -5,7 +5,7 @@ import FlatButton from "material-ui/FlatButton";
 class ProblemListCard extends Component {
   render() {
     return (
-      <Card className="flex-item" style={this.props.style}>
+      <Card className="flex-item" style={this.props.style} zDepth={2}>
         <CardHeader
           title="作者名字"
           subtitle="2017-03-09 23:32:43"
