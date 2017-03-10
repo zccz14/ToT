@@ -6,7 +6,7 @@ import Root from "./containers/Root";
 import Index from "./containers/IndexLayout";
 import SignIn from "./containers/SignIn";
 import store from "./redux/store";
-import DashBoard from "./containers/DashBoard"
+import DashBoard from "./containers/DashBoardLayout"
 import {Provider} from "react-redux";
 
 ReactDOM.render((
