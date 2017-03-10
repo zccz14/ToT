@@ -33,7 +33,7 @@ class Index extends Component {
             </Badge>
           }/>
           <div className="container">
-            <Paper className="aaaa">
+            <Paper className="sign-container">
               <Tabs>
                 <Tab label="Sign In">
                   <div className="center">

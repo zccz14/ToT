@@ -1,5 +1,6 @@
-.aaaa {
+.sign-container {
     width: 40%;
+    min-width: 300px;
     max-width: 400px;
     height: 400px;
     position: absolute;
@@ -51,4 +52,17 @@
         width: 70%;
         margin: 15px 15%;
     }
+
+    .sign-container {
+        width: 85%;
+        margin: 5px auto;
+    }
+}
+
+@media (max-width: 375px) {
+    .flex-item {
+        width: 95%;
+        margin: 5px 2.5%;
+    }
+
 }
