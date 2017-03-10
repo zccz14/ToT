@@ -8,6 +8,7 @@ import getMuiTheme from "material-ui/styles/getMuiTheme";
 import * as Color from "material-ui/styles/colors";
 import co from "co";
 import {connect} from "react-redux";
+import URLs from "../url.json";
 
 injectTapEventPlugin();
 const muiTheme = getMuiTheme(Object.assign({}, {
@@ -26,7 +27,7 @@ class Root extends Component {
   componentWillMount() {
     const {dispatch, router} = this.props;
     co(function*() {
-      const res = yield fetch('http://localhost:8080/session/user', {
+      const res = yield fetch(URLs.baseURL + '/session/user', {
         method: 'GET',
         credentials: 'include'
       });

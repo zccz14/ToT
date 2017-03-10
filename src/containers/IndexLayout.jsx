@@ -11,6 +11,7 @@ import IconButton from "material-ui/IconButton";
 import NotificationsIcon from "material-ui/svg-icons/social/notifications";
 import {amber700} from "material-ui/styles/colors";
 import ProblemListCard from "../components/ProblemListCard";
+import URLs from "../url.json";
 import "./index.css";
 import co from "co";
 class Index extends Component {
@@ -23,7 +24,7 @@ class Index extends Component {
   onSignIn = (username, password) => {
     const {dispatch, router} = this.props;
     co(function*() {
-      const res = yield fetch('//localhost:8080/users/sign-in', {
+      const res = yield fetch(URLs.baseURL + '/users/sign-in', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"
