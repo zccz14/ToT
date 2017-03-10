@@ -1,23 +1,22 @@
 /**
  * Created by lqp on 2017/3/9.
  */
-import React, {Component} from "react"
-import {connect} from "react-redux"
-import "./DashBoard.css"
-import AppBar from "material-ui/AppBar"
-import Drawer from 'material-ui/Drawer'
-import Divider from "material-ui/Divider"
-import {ListItem} from "material-ui/List"
-import ActionGrade from "material-ui/svg-icons/action/grade"
-import ContentSend from "material-ui/svg-icons/content/send"
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import AppBar from "material-ui/AppBar";
+import Drawer from "material-ui/Drawer";
+import Divider from "material-ui/Divider";
+import {ListItem} from "material-ui/List";
+import ActionGrade from "material-ui/svg-icons/action/grade";
+import ContentSend from "material-ui/svg-icons/content/send";
 import LightBulbOutline from "material-ui/svg-icons/action/lightbulb-outline";
 import Sort from "material-ui/svg-icons/content/sort";
 import List from "material-ui/svg-icons/action/list";
-import ContentCopy from "material-ui/svg-icons/content/content-copy"
-import Done from "material-ui/svg-icons/action/done"
-import Schedule from "material-ui/svg-icons/action/schedule"
+import ContentCopy from "material-ui/svg-icons/content/content-copy";
+import Done from "material-ui/svg-icons/action/done";
+import Schedule from "material-ui/svg-icons/action/schedule";
 import Favorite from "material-ui/svg-icons/action/favorite";
-import Avatar from 'material-ui/Avatar';
+import Avatar from "material-ui/Avatar";
 
 class DashBoardLayout extends Component {
   state = {
