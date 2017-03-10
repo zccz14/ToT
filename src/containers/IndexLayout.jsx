@@ -28,6 +28,7 @@ class Index extends Component {
         headers: {
           "Content-Type": "application/json"
         },
+        credentials: 'include',
         body: JSON.stringify({username, password})
       });
       dispatch({type: 'SIGN_IN'});
