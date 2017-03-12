@@ -17,6 +17,7 @@ import Done from "material-ui/svg-icons/action/done";
 import Schedule from "material-ui/svg-icons/action/schedule";
 import Favorite from "material-ui/svg-icons/action/favorite";
 import Avatar from "material-ui/Avatar";
+import QuickStart from "../components/QuickStart";
 import PowerSettingsNew from "material-ui/svg-icons/action/power-settings-new";
 
 class DashBoardLayout extends Component {
@@ -37,6 +38,7 @@ class DashBoardLayout extends Component {
       open: false,
     });
   };
+  onNewProblem = () => this.props.router.push('/dashboard/problem/new');
 
   render() {
     return (
@@ -55,8 +57,9 @@ class DashBoardLayout extends Component {
           }
         />
         <div>
-          {this.props.childrenn}
+          {this.props.children}
         </div>
+        <QuickStart onNewProblem={this.onNewProblem}/>
         <Drawer
           docked={false}
           width={270}
