@@ -17,6 +17,7 @@ import Done from "material-ui/svg-icons/action/done";
 import Schedule from "material-ui/svg-icons/action/schedule";
 import Favorite from "material-ui/svg-icons/action/favorite";
 import Avatar from "material-ui/Avatar";
+import PowerSettingsNew from "material-ui/svg-icons/action/power-settings-new";
 
 class DashBoardLayout extends Component {
   state = {
@@ -24,6 +25,18 @@ class DashBoardLayout extends Component {
   };
   handleToggle = () => this.setState({open: !this.state.open});
   handleClose = () => this.setState({open: false});
+  handleTouchTag = (event) => {
+    event.preventDefault();
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
+  };
+  handleRequestClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
 
   render() {
     return (
@@ -32,9 +45,17 @@ class DashBoardLayout extends Component {
           title="ToT"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
           onLeftIconButtonTouchTap={this.handleToggle}
+          iconElementRight={
+            <Avatar
+              size={50}
+              style={{marginRight: 10}}
+              src="https://www.gravatar.com/avatar/"
+              onClick={this.handleTouchTag}
+            />
+          }
         />
         <div>
-          {this.props.children}
+          {this.props.childrenn}
         </div>
         <Drawer
           docked={false}
@@ -126,6 +147,11 @@ class DashBoardLayout extends Component {
                 onTouchTap={this.handleClose}
               />
             ]}
+          />
+          <Divider/>
+          <ListItem
+            primaryText="Sign Out"
+            leftIcon={<PowerSettingsNew />}
           />
         </Drawer>
       </div>
