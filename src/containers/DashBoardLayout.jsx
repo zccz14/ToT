@@ -46,9 +46,14 @@ class DashBoardLayout extends Component {
             style={{height: 80}}
             disabled={true}
             leftAvatar={
-            <Avatar src="https://www.gravatar.com/avatar/"/>
+              <Avatar
+                style={{top: 40}}
+                src="https://www.gravatar.com/avatar/"
+              />
             }
           >
+            <br/>
+            <br/>
             Image Avatar
           </ListItem>
           <Divider />
