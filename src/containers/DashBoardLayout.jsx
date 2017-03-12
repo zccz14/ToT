@@ -19,23 +19,32 @@ import Favorite from "material-ui/svg-icons/action/favorite";
 import Avatar from "material-ui/Avatar";
 import QuickStart from "../components/QuickStart";
 import PowerSettingsNew from "material-ui/svg-icons/action/power-settings-new";
+import Popover from "material-ui/Popover";
+// import MenuItem from "material-ui/MenuItem";
+import Badge from "material-ui/Badge";
+import {amber700} from "material-ui/styles/colors";
+import IconButton from "material-ui/IconButton";
+import NotificationsIcon from "material-ui/svg-icons/social/notifications";
+import {Card, CardHeader, CardTitle, CardText} from "material-ui/Card";
+import FlatButton from "material-ui/FlatButton";
 
 class DashBoardLayout extends Component {
   state = {
-    open: false
+    open: false,
+    openAvatar: false
   };
   handleToggle = () => this.setState({open: !this.state.open});
   handleClose = () => this.setState({open: false});
   handleTouchTag = (event) => {
     event.preventDefault();
     this.setState({
-      open: true,
+      openAvatar: true,
       anchorEl: event.currentTarget,
     });
   };
   handleRequestClose = () => {
     this.setState({
-      open: false,
+      openAvatar: false,
     });
   };
   onNewProblem = () => this.props.router.push('/dashboard/problem/new');
@@ -48,18 +57,60 @@ class DashBoardLayout extends Component {
           iconClassNameRight="muidocs-icon-navigation-expand-more"
           onLeftIconButtonTouchTap={this.handleToggle}
           iconElementRight={
-            <Avatar
-              size={50}
-              style={{marginRight: 10}}
-              src="https://www.gravatar.com/avatar/"
-              onClick={this.handleTouchTag}
-            />
+            <div>
+              <Avatar
+                size={50}
+                style={{marginRight: 10}}
+                src="https://www.gravatar.com/avatar/"
+                onClick={this.handleTouchTag}
+              />
+              <Badge
+                style={{padding: 0, top: -8}}
+                badgeContent={'99+'}
+                secondary={true}
+                badgeStyle={{top: 0, right: 0, backgroundColor: amber700}}
+              >
+                <IconButton
+                  tooltip="通知"
+                  style={{paddingTop: 18, paddingBottom: 6}}
+                >
+                  <NotificationsIcon color={'#ffffff'}/>
+                </IconButton>
+              </Badge>
+            </div>
+
           }
+
         />
         <div>
           {this.props.children}
         </div>
         <QuickStart onNewProblem={this.onNewProblem}/>
+        <Popover
+          open={this.state.openAvatar}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          onRequestClose={this.handleRequestClose}
+        >
+          <Card
+            style={{width: 300}}>
+            <CardHeader
+              title="Username"
+              subtitle="e-mail"
+              avatar="https://www.gravatar.com/avatar/"
+            />
+            <CardTitle title="Nickname" subtitle="Biography"/>
+            <CardText>
+              Describe youself
+            </CardText>
+            <Divider />
+            <FlatButton
+              style={{margin: 5}}
+              label="Sign Out"/>
+            <FlatButton label="Action2"/>
+          </Card>
+        </Popover>
         <Drawer
           docked={false}
           width={270}
