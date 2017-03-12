@@ -6,7 +6,8 @@ import Root from "./containers/Root";
 import Index from "./containers/IndexLayout";
 import SignIn from "./containers/SignIn";
 import store from "./redux/store";
-import DashBoard from "./containers/DashBoardLayout"
+import DashBoard from "./containers/DashBoardLayout";
+import ProblemEditor from "./components/ProblemEditor";
 import {Provider} from "react-redux";
 
 ReactDOM.render((
@@ -16,7 +17,9 @@ ReactDOM.render((
         <IndexRedirect to="/index"/>
         <Route path="/index" component={Index}/>
         <Route path="/sign-in" component={SignIn}/>
-        <Route path="/dashboard" component={DashBoard}/>
+        <Route path="/dashboard" component={DashBoard}>
+          <Route path="problem/new" component={ProblemEditor}/>
+        </Route>
       </Route>
     </Router>
   </Provider>

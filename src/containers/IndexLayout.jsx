@@ -13,11 +13,14 @@ import ProblemListCard from "../components/ProblemListCard";
 import URLs from "../url.json";
 import "./index.css";
 import co from "co";
+import * as ProblemListActions from "../redux/modules/problem_list";
+
 class Index extends Component {
   componentWillMount() {
     if (this.props.Session.get('user')) {
       this.props.router.push('/dashboard');
     }
+    this.fetchProblemLists();
   }
 
   onSignIn = (username, password) => {
@@ -76,6 +79,25 @@ class Index extends Component {
     }).catch(console.log);
   };
 
+  fetchProblemLists = () => {
+    const {dispatch} = this.props;
+    co(function*() {
+      const res = yield fetch(URLs.baseURL + '/problemLists/?pageNumber=1&pageSize=10', {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: 'include'
+      });
+      switch (res.status) {
+        case 200:
+          dispatch(ProblemListActions.loadProblemLists(yield res.json()));
+          break;
+        default:
+      }
+    });
+  };
+
   render() {
     return (
       <div>
@@ -110,23 +132,14 @@ class Index extends Component {
         </Paper>
         <br/>
         <div className="flex-container">
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
-          <ProblemListCard/>
+          {this.props.ProblemList.get('items').map((v, i) => (
+            <ProblemListCard
+              key={i}
+              title={v.get('title')}
+              creatorName={v.get('creator')}
+              date={new Date(parseInt(v.get('id').slice(0, 8), 16) * 1000).toLocaleString()}
+            />
+          ))}
         </div>
       </div>
     )
@@ -135,7 +148,8 @@ class Index extends Component {
 
 function select(state) {
   return {
-    Session: state.Session
+    Session: state.Session,
+    ProblemList: state.ProblemList
   }
 }
 

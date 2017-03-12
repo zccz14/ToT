@@ -7,22 +7,19 @@ class ProblemListCard extends Component {
     return (
       <Card className="flex-item" style={this.props.style} zDepth={2}>
         <CardHeader
-          title="作者名字"
-          subtitle="2017-03-09 23:32:43"
-          avatar="https://www.gravatar.com/avatar/"
+          title={this.props.creatorName}
+          subtitle={this.props.date}
+          avatar={this.props.creatorAvatar || 'https://www.gravatar.com/avatar/'}
         />
         <CardMedia
           overlay={
-            <CardTitle title="题单标题"/>
+            <CardTitle title={this.props.title}/>
           }
         >
           <img src="http://www.material-ui.com/images/nature-600-337.jpg" alt="haha"/>
         </CardMedia>
         <CardText>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-          Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-          Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+          {this.props.description || "暂无简介"}
         </CardText>
         <CardActions>
           <FlatButton label="详情"/>
