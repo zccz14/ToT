@@ -20,7 +20,6 @@ import Avatar from "material-ui/Avatar";
 import QuickStart from "../components/QuickStart";
 import PowerSettingsNew from "material-ui/svg-icons/action/power-settings-new";
 import Popover from "material-ui/Popover";
-// import MenuItem from "material-ui/MenuItem";
 import Badge from "material-ui/Badge";
 import {amber700} from "material-ui/styles/colors";
 import IconButton from "material-ui/IconButton";
@@ -102,7 +101,7 @@ class DashBoardLayout extends Component {
             />
             <CardTitle title="Nickname" subtitle="Biography"/>
             <CardText>
-              Describe youself
+              就是我，帅若天仙的小侠女！
             </CardText>
             <Divider />
             <FlatButton
