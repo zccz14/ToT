@@ -12,7 +12,8 @@ import Chip from "material-ui/Chip";
 class ProblemBuilder extends Component {
   state = {
     type: "OPEN_QUESTION",
-    choice: []
+    choice: [],
+    answers: []
   };
   handleChange = (event, index, value) => this.setState({type: value});
 
@@ -22,6 +23,10 @@ class ProblemBuilder extends Component {
         return this.refs.answer.input.refs.input.value;
       case 'TRUE_OR_FALSE':
         return this.refs.answerTrueOrFalse.state.switched;
+      case 'MULTIPLE_CHOICE_SINGLE_ANSWER':
+        return this.refs.answerSingleAnswer.state.selected;
+      case 'MULTIPLE_CHOICE_MULTIPLE_ANSWERS':
+        return this.state.answers;
       default:
         return null;
     }
@@ -33,7 +38,8 @@ class ProblemBuilder extends Component {
       title: this.refs.title.input.value,
       description: this.refs.description.input.refs.input.value, // for multiLine TextField
       type: this.state.type,
-      referenceAnswer: this.getAnswer()
+      referenceAnswer: this.getAnswer(),
+      choice: this.state.choice
     });
   };
 
@@ -46,6 +52,10 @@ class ProblemBuilder extends Component {
       choice: [
         ...this.state.choice,
         this.refs.add_choice.input.value
+      ],
+      answers: [
+        ...this.state.answers,
+        false
       ]
     });
   };
@@ -141,6 +151,7 @@ class ProblemBuilder extends Component {
               </div>
               <Subheader>Reference Answer</Subheader>
               <RadioButtonGroup
+                ref="answerSingleAnswer"
                 name="answerSingleAnswer"
               >
                 {
@@ -182,14 +193,25 @@ class ProblemBuilder extends Component {
                   }
                 </div>
                 <Subheader>Reference Answer</Subheader>
-                {
-                  this.state.choice.map((v, i) => (
-                    <Checkbox
-                      key={i}
-                      label={v}
-                    />
-                  ))
-                }
+                <div>
+                  {
+                    this.state.choice.map((v, i) => (
+                      <Checkbox
+                        key={i}
+                        label={v}
+                        onCheck={(e, checked) => {
+                          this.setState({
+                            answers: [
+                              ...this.state.answers.slice(0, i),
+                              checked,
+                              ...this.state.answers.slice(i + 1)
+                            ]
+                          })
+                        }}
+                      />
+                    ))
+                  }
+                </div>
                 <br/>
                 <TextField
                   ref="add_choice"
