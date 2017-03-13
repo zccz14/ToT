@@ -126,7 +126,10 @@ class DashBoardLayout extends Component {
             <FlatButton
               style={{margin: 5}}
               label="Sign Out"
-              onTouchTap={this.onSignOut}
+              onTouchTap={() => {
+                this.handleRequestClose();
+                this.onSignOut();
+              }}
             />
             <FlatButton label="Action2"/>
           </Card>
@@ -226,7 +229,10 @@ class DashBoardLayout extends Component {
           <ListItem
             primaryText="Sign Out"
             leftIcon={<PowerSettingsNew />}
-            onTouchTap={this.onSignOut}
+            onTouchTap={() => {
+              this.handleClose();
+              this.onSignOut();
+            }}
           />
         </Drawer>
       </div>

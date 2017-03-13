@@ -6,9 +6,11 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import injectTapEventPlugin from "react-tap-event-plugin";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
 import * as Color from "material-ui/styles/colors";
+import {amber700} from "material-ui/styles/colors";
 import co from "co";
 import {connect} from "react-redux";
 import URLs from "../url.json";
+import CircularProgress from "material-ui/CircularProgress";
 
 injectTapEventPlugin();
 const muiTheme = getMuiTheme(Object.assign({}, {
@@ -41,10 +43,29 @@ class Root extends Component {
       }
     });
   }
+
   render() {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        {this.props.children}
+        <div>
+          {this.props.children}
+          {
+            this.props.isLoading ?
+              <CircularProgress
+                size={80}
+                thickness={5}
+                style={{
+                  position: 'fixed',
+                  top: '50%',
+                  left: '50%',
+                  zIndex: 100
+                }}
+                color={amber700}
+              />
+              :
+              null
+          }
+        </div>
       </MuiThemeProvider>
     );
   }
@@ -52,7 +73,8 @@ class Root extends Component {
 
 function select(state) {
   return {
-    Session: state.Session
+    Session: state.Session,
+    isLoading: state.Session.get('network')
   };
 }
 
