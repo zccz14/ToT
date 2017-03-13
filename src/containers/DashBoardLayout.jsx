@@ -61,7 +61,7 @@ class DashBoardLayout extends Component {
         credentials: 'include'
       });
       if (res.status === 204) {
-        dispatch(SessionActions.SignOutAction());
+        dispatch(SessionActions.SignOut());
         router.push('/');
       }
     });
