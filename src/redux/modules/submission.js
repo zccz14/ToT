@@ -1,12 +1,7 @@
-import Immutable from "immutable";
+import Factory from "../factory";
 
-const initState = Immutable.fromJS({
-  items: []
-});
+const Submission = new Factory("Submission");
 
-export default function reducer(state = initState, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
+export const {Create, Load, Update, Remove} = Submission;
+const {reducer} = Submission;
+export default reducer;
