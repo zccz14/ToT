@@ -10,6 +10,7 @@ import IconButton from "material-ui/IconButton";
 import NotificationsIcon from "material-ui/svg-icons/social/notifications";
 import {amber700} from "material-ui/styles/colors";
 import ProblemListCard from "../components/ProblemListCard";
+import * as SessionActions from "../redux/modules/session";
 import URLs from "../url.json";
 import "./index.css";
 import co from "co";
@@ -26,6 +27,7 @@ class Index extends Component {
   onSignIn = (username, password) => {
     const {dispatch, router} = this.props;
     co(function*() {
+      dispatch(SessionActions.SignIn());
       const res = yield fetch(URLs.baseURL + '/users/sign-in', {
         method: 'POST',
         headers: {
@@ -34,25 +36,26 @@ class Index extends Component {
         credentials: 'include',
         body: JSON.stringify({username, password})
       });
-      dispatch({type: 'SIGN_IN'});
       if (res.status === 200) {
         const data = yield res.json();
-        dispatch({type: 'SIGN_IN_SUCCESS', payload: data});
+        dispatch(SessionActions.SignInSuccess(data));
         router.push('/dashboard');
       } else if (res.status === 404) {
         const data = yield res.json();
-        dispatch({type: 'SIGN_IN_FAILED', payload: data, error: true});
+        dispatch(SessionActions.SignInFailed(data));
       } else if (res.status === 403) {
         const data = yield res.json();
-        dispatch({type: 'SIGN_IN_FAILED', payload: data, error: true});
+        dispatch(SessionActions.SignInFailed(data));
       }
-    }).catch(console.log);
+    }).catch((e) => {
+      dispatch(SessionActions.SignInFailed(e));
+    });
   };
 
   onSignUp = (argSignUp) => {
     const {dispatch, router} = this.props;
     co(function*() {
-      dispatch({type: 'SIGN_UP'});
+      dispatch(SessionActions.SignUp());
       const res = yield fetch(URLs.baseURL + '/users/sign-up', {
         method: 'POST',
         headers: {
@@ -66,17 +69,19 @@ class Index extends Component {
         case 200:
         case 201:
           // Sign Up Success
-          dispatch({type: 'SIGN_UP_SUCCESS', payload: data});
+          dispatch(SessionActions.SignUpSuccess(data));
           router.push('/dashboard');
           break;
         case 400:
         case 409:
           // Duplicate
-          dispatch({type: 'SIGN_UP_FAILED', payload: data});
+          dispatch(SessionActions.SignUpFailed(data));
           break;
         default:
       }
-    }).catch(console.log);
+    }).catch((e) => {
+      dispatch(SessionActions.SignUpFailed(e));
+    });
   };
 
   fetchProblemLists = () => {
@@ -95,6 +100,8 @@ class Index extends Component {
           break;
         default:
       }
+    }).catch((e) => {
+      dispatch(SessionActions.SignInFailed(e));
     });
   };
 

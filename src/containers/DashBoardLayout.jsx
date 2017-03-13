@@ -53,6 +53,7 @@ class DashBoardLayout extends Component {
   onSignOut = () => {
     const {dispatch, router} = this.props;
     co(function*() {
+      dispatch(SessionActions.SignOut());
       const res = yield fetch(URLs.baseURL + "/users/sign-out", {
         method: 'GET',
         headers: {
@@ -61,7 +62,7 @@ class DashBoardLayout extends Component {
         credentials: 'include'
       });
       if (res.status === 204) {
-        dispatch(SessionActions.SignOut());
+        dispatch(SessionActions.SignOutSuccess());
         router.push('/');
       }
     });
