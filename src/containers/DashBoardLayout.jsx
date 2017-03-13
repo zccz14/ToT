@@ -49,7 +49,7 @@ class DashBoardLayout extends Component {
       openAvatar: false,
     });
   };
-  onNewProblem = () => this.props.router.push('/dashboard/problem/new');
+  onNewProblem = () => this.props.router.push('/dashboard/problems/new');
   onSignOut = () => {
     const {dispatch, router} = this.props;
     co(function*() {

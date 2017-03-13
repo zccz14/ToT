@@ -27,7 +27,7 @@ const muiTheme = getMuiTheme(Object.assign({}, {
 
 class Root extends Component {
   componentWillMount() {
-    const {dispatch, router} = this.props;
+    const {dispatch} = this.props;
     co(function*() {
       const res = yield fetch(URLs.baseURL + '/session/user', {
         method: 'GET',
@@ -39,7 +39,6 @@ class Root extends Component {
           type: "SIGN_IN_SUCCESS",
           payload: data
         });
-        router.push('/dashboard');
       }
     });
   }

@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import co from "co";
 import Fetch from "../utils/fetch";
 import * as ProblemActions from "../redux/modules/problem";
+import ProblemCard from "../components/ProblemCard";
 
 class Problems extends Component {
   componentDidMount() {
@@ -20,7 +21,9 @@ class Problems extends Component {
   render() {
     return (
       <div>
-
+        {this.props.Problem.get('items').map((v, i) => (
+          <ProblemCard key={i} data={v} onLoading={console.log}/>
+        ))}
       </div>
     );
   }
