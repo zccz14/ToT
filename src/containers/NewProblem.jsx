@@ -15,6 +15,9 @@ class NewProblem extends Component {
         credentials: 'include',
         body: JSON.stringify(args)
       });
+      if (res.status === 200) {
+
+      }
     })
   };
   onCancel = () => {

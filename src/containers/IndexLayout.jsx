@@ -5,10 +5,6 @@ import Paper from "material-ui/Paper";
 import AppBar from "material-ui/AppBar";
 import SignInBox from "../components/SignInBox";
 import SignUpBox from "../components/SignUpBox";
-import Badge from "material-ui/Badge";
-import IconButton from "material-ui/IconButton";
-import NotificationsIcon from "material-ui/svg-icons/social/notifications";
-import {amber700} from "material-ui/styles/colors";
 import ProblemListCard from "../components/ProblemListCard";
 import * as SessionActions from "../redux/modules/session";
 import URLs from "../url.json";
@@ -109,21 +105,7 @@ class Index extends Component {
     return (
       <div>
         <Paper className="root-container" zDepth={3}>
-          <AppBar title="ToT - XJTU Online Judge System" showMenuIconButton={false} iconElementRight={
-            <Badge
-              style={{padding: 0}}
-              badgeContent={'99+'}
-              secondary={true}
-              badgeStyle={{top: 0, right: 0, backgroundColor: amber700}}
-            >
-              <IconButton
-                tooltip="通知"
-                style={{paddingTop: 18, paddingBottom: 6}}
-              >
-                <NotificationsIcon color={'#ffffff'}/>
-              </IconButton>
-            </Badge>
-          }/>
+          <AppBar title="ToT - XJTU Online Judge System" showMenuIconButton={false}/>
           <div className="container">
             <Paper className="sign-container">
               <Tabs>
