@@ -8,6 +8,7 @@ import store from "./redux/store";
 import DashBoard from "./containers/DashBoardLayout";
 import NewProblem from "./containers/NewProblem";
 import ProblemListEditor from "./containers/ProblemListEditor";
+import ViewProblem from "./containers/ViewProblem";
 import {Provider} from "react-redux";
 
 ReactDOM.render((
@@ -19,6 +20,7 @@ ReactDOM.render((
         <Route path="/dashboard" component={DashBoard}>
           <Route path="problem/new" component={NewProblem}/>
           <Route path="problemlist/new" component={ProblemListEditor}/>
+          <Route path="problem/view" component={ViewProblem}/>
         </Route>
       </Route>
     </Router>
