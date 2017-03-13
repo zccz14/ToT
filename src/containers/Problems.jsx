@@ -18,11 +18,23 @@ class Problems extends Component {
     });
   }
 
+  handleLoading = (problemId) => {
+    console.log(problemId);
+    const {dispatch} = this.props;
+    co(function*() {
+      const res = yield Fetch("GET")(`/problems/${problemId}`)();
+      if (res.status === 200) {
+        const data = yield res.json();
+        dispatch(ProblemActions.Update(data));
+      }
+    })
+  };
+
   render() {
     return (
       <div>
         {this.props.Problem.get('items').map((v, i) => (
-          <ProblemCard key={i} data={v} onLoading={console.log}/>
+          <ProblemCard key={i} data={v} problemId={i} onLoading={this.handleLoading}/>
         ))}
       </div>
     );

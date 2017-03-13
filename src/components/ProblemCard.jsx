@@ -15,10 +15,9 @@ class ProblemCard extends Component {
         }}
         expanded={this.state.expanded}
         onExpandChange={(expanded) => {
-          console.log(expanded);
           this.setState({expanded});
           if (expanded && this.props.data.description === null) {
-            this.props.onLoading();
+            this.props.onLoading(this.props.problemId);
           }
         }}
       >
