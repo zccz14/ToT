@@ -1,7 +1,7 @@
 import Immutable from "immutable";
 
 const initState = Immutable.fromJS({
-  problems: []
+  items: []
 });
 
 export default function reducer(state = initState, action) {

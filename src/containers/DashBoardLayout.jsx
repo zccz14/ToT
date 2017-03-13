@@ -26,7 +26,10 @@ import {amber700} from "material-ui/styles/colors";
 import IconButton from "material-ui/IconButton";
 import NotificationsIcon from "material-ui/svg-icons/social/notifications";
 import {Card, CardHeader, CardTitle, CardText} from "material-ui/Card";
+import * as SessionActions from "../redux/modules/session";
 import FlatButton from "material-ui/FlatButton";
+import co from "co";
+import URLs from "../url.json";
 
 class DashBoardLayout extends Component {
   state = {
@@ -48,13 +51,28 @@ class DashBoardLayout extends Component {
     });
   };
   onNewProblem = () => this.props.router.push('/dashboard/problem/new');
+  onSignOut = () => {
+    const {dispatch, router} = this.props;
+    co(function*() {
+      const res = yield fetch(URLs.baseURL + "/users/sign-out", {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: 'include'
+      });
+      if (res.status === 204) {
+        dispatch(SessionActions.SignOutAction());
+        router.push('/');
+      }
+    });
+  };
 
   render() {
     return (
       <div>
         <AppBar
           title="ToT"
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
           onLeftIconButtonTouchTap={this.handleToggle}
           iconElementRight={
             <div>
@@ -107,7 +125,9 @@ class DashBoardLayout extends Component {
             <Divider />
             <FlatButton
               style={{margin: 5}}
-              label="Sign Out"/>
+              label="Sign Out"
+              onTouchTap={this.onSignOut}
+            />
             <FlatButton label="Action2"/>
           </Card>
         </Popover>
@@ -206,6 +226,7 @@ class DashBoardLayout extends Component {
           <ListItem
             primaryText="Sign Out"
             leftIcon={<PowerSettingsNew />}
+            onTouchTap={this.onSignOut}
           />
         </Drawer>
       </div>

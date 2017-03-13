@@ -4,7 +4,6 @@ import "./index.css";
 import {Router, Route, IndexRedirect, hashHistory} from "react-router";
 import Root from "./containers/Root";
 import Index from "./containers/IndexLayout";
-import SignIn from "./containers/SignIn";
 import store from "./redux/store";
 import DashBoard from "./containers/DashBoardLayout";
 import NewProblem from "./containers/NewProblem";
@@ -16,7 +15,6 @@ ReactDOM.render((
       <Route path="/" component={Root}>
         <IndexRedirect to="/index"/>
         <Route path="/index" component={Index}/>
-        <Route path="/sign-in" component={SignIn}/>
         <Route path="/dashboard" component={DashBoard}>
           <Route path="problem/new" component={NewProblem}/>
         </Route>

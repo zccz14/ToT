@@ -1,7 +1,7 @@
 import Immutable from "immutable";
 
 const initState = Immutable.fromJS({
-  users: []
+  items: []
 });
 
 export default function reducer(state = initState, action) {

@@ -1,21 +1,27 @@
 import Immutable from "immutable";
 import {createAction} from "redux-actions";
 
-export const SignInAction = createAction("SIGN_IN", async(username, password) => {
-  const res = await fetch('//localhost:8080/users/sign-in', {
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({username, password})
-  });
-  const data = await res.json();
-  if (res.status === 200) {
-    return data;
-  } else {
-    throw data;
-  }
-});
+const SignInAction = "SIGN_IN";
+const SignInSuccessAction = "SIGN_IN_SUCCESS";
+const SignInFailedAction = "SIGN_IN_FAILED";
+
+const SignUpAction = "SIGN_UP";
+const SignUpSuccessAction = "SIGN_UP_SUCCESS";
+const SignUpFailedAction = "SIGN_UP_FAILED";
+
+const SignOutAction = "SIGN_OUT";
+const SignOutSuccessAction = "SIGN_OUT_SUCCESS";
+const SignOutFailedAction = "SIGN_OUT_FAILED";
+
+export const SignIn = createAction(SignInAction);
+export const SignInSuccess = createAction(SignInSuccessAction);
+export const SignInFailed = createAction(SignInFailedAction);
+export const SignUp = createAction(SignUpAction);
+export const SignUpSuccess = createAction(SignUpSuccessAction);
+export const SignUpFailed = createAction(SignUpFailedAction);
+export const SignOut = createAction(SignOutAction);
+export const SignOutSuccess = createAction(SignOutSuccessAction);
+export const SignOutFailed = createAction(SignOutFailedAction);
 
 const initState = Immutable.fromJS({
   errors: [],
@@ -24,17 +30,24 @@ const initState = Immutable.fromJS({
 });
 
 export default function reducer(state = initState, action) {
-  console.log(action);
   switch (action.type) {
-    case 'SIGN_IN':
-    case 'SIGN_UP':
-      return state.set('network', true);
-    case 'SIGN_UP_SUCCESS':
-    case 'SIGN_IN_SUCCESS':
-      return state.set('user', Immutable.fromJS(action.payload)).set('network', false);
-    case 'SIGN_UP_FAILED':
-    case 'SIGN_IN_FAILED':
-      return state.set('user', Immutable.fromJS(null)).set('network', false);
+    case SignInAction:
+    case SignUpAction:
+    case SignOutAction:
+      return state
+        .set('network', true);
+    case SignInSuccessAction:
+    case SignUpSuccessAction:
+    case SignOutSuccessAction:
+      return state
+        .set('network', false)
+        .set('user', Immutable.fromJS(action.payload));
+    case SignInFailedAction:
+    case SignUpFailedAction:
+    case SignOutFailedAction:
+      return state
+        .set('network', false)
+        .set('errors', state.get('errors').push(action.payload));
     default:
       return state;
   }
