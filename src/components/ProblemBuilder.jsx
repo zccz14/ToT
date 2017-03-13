@@ -15,7 +15,8 @@ class ProblemBuilder extends Component {
     this.props.onCreate({
       title: this.refs.title.input.value,
       description: this.refs.description.input.refs.input.value, // for multiLine TextField
-      type: this.state.type
+      type: this.state.type,
+      referenceAnswer: this.refs.answer.input.refs.input.value
     });
   };
 
@@ -60,7 +61,14 @@ class ProblemBuilder extends Component {
           fullWidth={true}
           rows={3}
         />
-        <input type="file" style={{display: 'none'}}/>
+        <TextField
+          floatingLabelText="Reference Answer"
+          hintText="Type answer here."
+          ref="answer"
+          multiLine={true}
+          fullWidth={true}
+          rows={3}
+        />
         <br/>
         <FlatButton
           label="create"

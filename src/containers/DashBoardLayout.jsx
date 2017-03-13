@@ -184,7 +184,10 @@ class DashBoardLayout extends Component {
           <ListItem
             primaryText="Problem"
             leftIcon={<LightBulbOutline />}
-            onTouchTap={this.handleClose}
+            onTouchTap={() => {
+              this.handleClose();
+              this.props.router.push('/dashboard/problems');
+            }}
           />
           <ListItem
             primaryText="Submission"
