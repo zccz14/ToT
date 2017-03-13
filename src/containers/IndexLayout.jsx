@@ -91,9 +91,11 @@ class Index extends Component {
         credentials: 'include'
       });
       switch (res.status) {
-        case 200:
-          dispatch(ProblemListActions.loadProblemLists(yield res.json()));
+        case 200: {
+          let data = yield res.json();
+          dispatch(ProblemListActions.Load(data.content));
           break;
+        }
         default:
       }
     }).catch((e) => {
@@ -121,14 +123,16 @@ class Index extends Component {
         </Paper>
         <br/>
         <div className="flex-container">
-          {this.props.ProblemList.get('items').map((v, i) => (
-            <ProblemListCard
-              key={i}
-              title={v.get('title')}
-              creatorName={v.get('creator')}
-              date={new Date(parseInt(v.get('id').slice(0, 8), 16) * 1000).toLocaleString()}
-            />
-          ))}
+          {
+            this.props.ProblemList.get('items').map((v, i) => (
+              <ProblemListCard
+                key={i}
+                title={v.title}
+                creatorName={v.creator}
+                date={new Date(parseInt(i.slice(0, 8), 16) * 1000).toLocaleString()}
+              />
+            ))
+          }
         </div>
       </div>
     )

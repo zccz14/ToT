@@ -8,13 +8,13 @@ class Factory {
     this.LoadAction = id + '/load';
     this.UpdateAction = id + '/update';
     this.RemoveAction = id + '/remove';
+    this.Create = createAction(this.CreateAction);
+    this.Load = createAction(this.LoadAction);
+    this.Update = createAction(this.UpdateAction);
+    this.Remove = createAction(this.RemoveAction);
   }
 
 
-  Create = createAction(this.CreateAction);
-  Load = createAction(this.LoadAction);
-  Update = createAction(this.UpdateAction);
-  Remove = createAction(this.RemoveAction);
 
   initState = Immutable.fromJS({
     items: {}
