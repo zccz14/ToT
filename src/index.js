@@ -7,7 +7,7 @@ import Index from "./containers/IndexLayout";
 import store from "./redux/store";
 import DashBoard from "./containers/DashBoardLayout";
 import NewProblem from "./containers/NewProblem";
-import ProblemListEditor from "./containers/ProblemListEditor";
+import NewProblemList from "./containers/NewProblemList";
 import ViewProblem from "./containers/ViewProblem";
 import {Provider} from "react-redux";
 import Problems from "./containers/Problems";
@@ -21,7 +21,7 @@ ReactDOM.render((
         <Route path="/dashboard" component={DashBoard}>
           <Route path="problems" component={Problems}/>
           <Route path="problems/new" component={NewProblem}/>
-          <Route path="problem-lists/new" component={ProblemListEditor}/>
+          <Route path="problem-lists/new" component={NewProblemList}/>
           <Route path="problem/view" component={ViewProblem}/>
         </Route>
       </Route>
