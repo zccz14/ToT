@@ -33,7 +33,8 @@ import URLs from "../url.json";
 class DashBoardLayout extends Component {
   state = {
     open: false,
-    openAvatar: false
+    openAvatar: false,
+    openBio: false
   };
   handleToggle = () => this.setState({open: !this.state.open});
   handleClose = () => this.setState({open: false});
@@ -96,7 +97,6 @@ class DashBoardLayout extends Component {
                 </IconButton>
               </Badge>
             </div>
-
           }
 
         />
@@ -131,7 +131,14 @@ class DashBoardLayout extends Component {
                 this.onSignOut();
               }}
             />
-            <FlatButton label="Action2"/>
+            <FlatButton
+              label="Edit"
+              onClick={() => {
+                this.handleClose();
+                this.handleRequestClose();
+                this.props.router.push('/dashboard/biography/edit');
+              }}
+            />
           </Card>
         </Popover>
         <Drawer
