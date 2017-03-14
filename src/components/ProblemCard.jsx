@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Card, CardTitle, CardText} from "material-ui/Card";
 import CircularProgress from "material-ui/CircularProgress";
 import {RadioButtonGroup, RadioButton} from "material-ui/RadioButton";
+import Checkbox from "material-ui/Checkbox";
 
 class ProblemCard extends Component {
   state = {
@@ -11,16 +12,34 @@ class ProblemCard extends Component {
   getContent = (data) => {
     return (
       <div>
-        {data.description}
+        {
+          data.type === 'TRUE_OR_FALSE' ?
+            null
+            : data.description
+        }
         {
           data.type === 'MULTIPLE_CHOICE_SINGLE_ANSWER' ?
-            <RadioButtonGroup name="">
-              {
-                data.addons.map((v, i) => (
-                  <RadioButton label={v} key={i} value={i}/>
-                ))
-              }
-            </RadioButtonGroup>
+            <div>
+              <RadioButtonGroup name="">
+                {
+                  data.addons.map((v, i) => (
+                    <RadioButton label={v} key={i} value={i}/>
+                  ))
+                }
+              </RadioButtonGroup>
+            </div>
+            : null
+        }
+        {
+          data.type === "MULTIPLE_CHOICE_MULTIPLE_ANSWERS" ?
+            data.addons.map((v, i) => (
+              <Checkbox key={i} label={v}/>
+            ))
+            : null
+        }
+        {
+          data.type === "TRUE_OR_FALSE" ?
+            <Checkbox label={data.description}/>
             : null
         }
       </div>
