@@ -63,6 +63,12 @@ class DashBoardLayout extends Component {
     });
   };
 
+  componentWillMount() {
+    if (!this.props.Session.get('user')) {
+      this.props.router.push('/index');
+    }
+  }
+
   render() {
     return (
       <div>

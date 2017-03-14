@@ -7,31 +7,26 @@ import SignInBox from "../components/SignInBox";
 import SignUpBox from "../components/SignUpBox";
 import ProblemListCard from "../components/ProblemListCard";
 import * as SessionActions from "../redux/modules/session";
-import URLs from "../url.json";
+import Fetch from "../utils/fetch";
 import "./index.css";
 import co from "co";
 import * as ProblemListActions from "../redux/modules/problem_list";
+
 
 class Index extends Component {
   componentWillMount() {
     if (this.props.Session.get('user')) {
       this.props.router.push('/dashboard');
+    } else {
+      this.fetchProblemLists();
     }
-    this.fetchProblemLists();
   }
 
   onSignIn = (username, password) => {
     const {dispatch, router} = this.props;
     co(function*() {
       dispatch(SessionActions.SignIn());
-      const res = yield fetch(URLs.baseURL + '/users/sign-in', {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: 'include',
-        body: JSON.stringify({username, password})
-      });
+      const res = yield Fetch("POST")("/users/sign-in")({username, password});
       if (res.status === 200) {
         const data = yield res.json();
         dispatch(SessionActions.SignInSuccess(data));
@@ -52,14 +47,7 @@ class Index extends Component {
     const {dispatch, router} = this.props;
     co(function*() {
       dispatch(SessionActions.SignUp());
-      const res = yield fetch(URLs.baseURL + '/users/sign-up', {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: 'include',
-        body: JSON.stringify(argSignUp)
-      });
+      const res = yield Fetch("POST")("/users/sign-up")(argSignUp);
       const data = yield res.json();
       switch (res.status) {
         case 200:
@@ -83,13 +71,7 @@ class Index extends Component {
   fetchProblemLists = () => {
     const {dispatch} = this.props;
     co(function*() {
-      const res = yield fetch(URLs.baseURL + '/problemLists/?pageNumber=1&pageSize=10', {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: 'include'
-      });
+      const res = yield Fetch("GET")("/problemLists/?pageNumber=1&pageSize=10")();
       switch (res.status) {
         case 200: {
           let data = yield res.json();

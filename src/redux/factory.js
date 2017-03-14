@@ -15,7 +15,6 @@ class Factory {
   }
 
 
-
   initState = Immutable.fromJS({
     items: {}
   });

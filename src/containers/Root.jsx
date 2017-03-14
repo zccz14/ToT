@@ -9,8 +9,9 @@ import * as Color from "material-ui/styles/colors";
 import {amber700} from "material-ui/styles/colors";
 import co from "co";
 import {connect} from "react-redux";
-import URLs from "../url.json";
+import Fetch from "../utils/fetch";
 import CircularProgress from "material-ui/CircularProgress";
+import * as SessionActions from "../redux/modules/session";
 
 injectTapEventPlugin();
 const muiTheme = getMuiTheme(Object.assign({}, {
@@ -27,18 +28,19 @@ const muiTheme = getMuiTheme(Object.assign({}, {
 
 class Root extends Component {
   componentWillMount() {
-    const {dispatch} = this.props;
+    const {dispatch, router} = this.props;
     co(function*() {
-      const res = yield fetch(URLs.baseURL + '/session/user', {
-        method: 'GET',
-        credentials: 'include'
-      });
-      if (res.status === 200) {
-        const data = yield res.json();
-        dispatch({
-          type: "SIGN_IN_SUCCESS",
-          payload: data
-        });
+      const res = yield Fetch("GET")("/session/user")();
+      if (res.status === 200) { // has signed in
+        dispatch(SessionActions.SignInSuccess(yield res.json()));
+        if (router.getCurrentLocation().pathname === '/index') {
+          router.push('/dashboard');
+        }
+      } else if (res.status === 403) { // has not signed in
+        dispatch(SessionActions.SignInFailed(yield res.json()));
+        if (router.getCurrentLocation().pathname !== '/index') {
+          router.push('/index');
+        }
       }
     });
   }
