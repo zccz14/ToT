@@ -50,6 +50,7 @@ class DashBoardLayout extends Component {
       openAvatar: false,
     });
   };
+  onNewProblemList = () => this.props.router.push('/dashboard/problem-lists/new');
   onNewProblem = () => this.props.router.push('/dashboard/problems/new');
   onSignOut = () => {
     const {dispatch, router} = this.props;
@@ -57,15 +58,14 @@ class DashBoardLayout extends Component {
       dispatch(SessionActions.SignOut());
       const res = yield Fetch("GET")("/users/sign-out")();
       if (res.status === 204) {
-        dispatch(SessionActions.SignOutSuccess());
         router.push('/');
+        dispatch(SessionActions.SignOutSuccess());
       }
     });
   };
 
   componentWillMount() {
     if (!this.props.Session.get('user')) {
-      console.log('push');
       this.props.router.push('/index');
     }
   }
@@ -105,7 +105,10 @@ class DashBoardLayout extends Component {
         <div>
           {this.props.children}
         </div>
-        <QuickStart onNewProblem={this.onNewProblem}/>
+        <QuickStart
+          onNewProblem={this.onNewProblem}
+          onNewProblemList={this.onNewProblemList}
+        />
         <Popover
           open={this.state.openAvatar}
           anchorEl={this.state.anchorEl}
@@ -116,9 +119,9 @@ class DashBoardLayout extends Component {
           <Card
             style={{width: 300}}>
             <CardHeader
-              title={(user && user.get('username')) || "Guest"}
-              subtitle={(user && user.get('email')) || ""}
-              avatar={(user && user.get('profile').get('avatar')) || ""}
+              title={DashBoardLayout.getUsername(user)}
+              subtitle={DashBoardLayout.getEmail(user)}
+              avatar={DashBoardLayout.getAvatar(user)}
             />
             <CardTitle title={DashBoardLayout.getNickname(user)} subtitle="Biography"/>
             <CardText>
@@ -252,24 +255,38 @@ class DashBoardLayout extends Component {
   }
 
   static getNickname(user) {
-    if (user === null) {
+    if (!user) {
       return "Guest";
     }
     return user.get('profile').get('nickname') || user.get('username');
   }
 
   static getBio(user) {
-    if (user === null) {
+    if (!user) {
       return "Welcome to XJTUOJ";
     }
     return user.get('profile').get('bio') || "Boring";
   }
 
   static getAvatar(user) {
-    if (user === null) {
+    if (!user) {
       return "https://www.gravatar.com/avatar/"; // default avatar
     }
     return user.get('profile').get('avatar') || "https://www.gravatar.com/avatar/";
+  }
+
+  static getEmail(user) {
+    if (!user) {
+      return "guest@funcxy.com";
+    }
+    return user.get('email');
+  }
+
+  static getUsername(user) {
+    if (!user) {
+      return "guest";
+    }
+    return user.get('username');
   }
 }
 

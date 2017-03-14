@@ -32,6 +32,11 @@ class QuickStart extends Component {
     this.props.onNewProblem();
   };
 
+  onNewProblemList = () => {
+    this.handleRequestClose();
+    this.props.onNewProblemList();
+  };
+
 
   render() {
     return (
@@ -60,7 +65,7 @@ class QuickStart extends Component {
             />
             <MenuItem
               primaryText="New Problem List"
-              disabled={true}
+              onTouchTap={this.onNewProblemList}
             />
             <MenuItem
               primaryText="New Group"
