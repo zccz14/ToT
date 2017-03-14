@@ -3,7 +3,6 @@
  */
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import BioEdit from "../components/BioEdit";
 import AppBar from "material-ui/AppBar";
 import Drawer from "material-ui/Drawer";
 import Divider from "material-ui/Divider";
@@ -132,7 +131,14 @@ class DashBoardLayout extends Component {
                 this.onSignOut();
               }}
             />
-            <BioEdit onOpen={this.handleRequestClose}/>
+            <FlatButton
+              label="Edit"
+              onClick={() => {
+                this.handleClose();
+                this.handleRequestClose();
+                this.props.router.push('/dashboard/biography/edit');
+              }}
+            />
           </Card>
         </Popover>
         <Drawer
