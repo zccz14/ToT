@@ -52,7 +52,7 @@ class Root extends Component {
             this.props.isLoading ?
               <div
                 style={{
-                  position: 'absolute',
+                  position: 'fixed',
                   height: 80,
                   width: '100%',
                   top: '50%'
@@ -62,7 +62,7 @@ class Root extends Component {
                   size={80}
                   thickness={5}
                   style={{
-                    margin: '0 auto',
+                    margin: '-40px auto 0 auto',
                     display: 'block',
                     zIndex: 100
                   }}
