@@ -47,8 +47,8 @@ class DashBoardLayout extends Component {
       dispatch(SessionActions.SignOut());
       const res = yield Fetch("GET")("/users/sign-out")();
       if (res.status === 204) {
-        router.push('/index');
         dispatch(SessionActions.SignOutSuccess());
+        router.push('/index');
       }
     });
   };

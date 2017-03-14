@@ -10,6 +10,7 @@ class ProblemListCard extends Component {
           title={this.props.creatorName}
           subtitle={this.props.date}
           avatar={this.props.creatorAvatar || 'https://www.gravatar.com/avatar/'}
+          textStyle={{padding: 0}}
         />
         <CardMedia
           overlay={

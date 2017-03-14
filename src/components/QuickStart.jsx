@@ -45,7 +45,8 @@ class QuickStart extends Component {
           style={{
             position: 'fixed',
             right: '2em',
-            bottom: '2em'
+            bottom: '2em',
+            zIndex: 50
           }}
           onTouchTap={this.handleTouchTap}
         >
