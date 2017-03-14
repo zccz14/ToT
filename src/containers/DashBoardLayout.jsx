@@ -4,21 +4,10 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import AppBar from "material-ui/AppBar";
-import Drawer from "material-ui/Drawer";
 import Divider from "material-ui/Divider";
-import {ListItem} from "material-ui/List";
-import ActionGrade from "material-ui/svg-icons/action/grade";
-import ContentSend from "material-ui/svg-icons/content/send";
-import LightBulbOutline from "material-ui/svg-icons/action/lightbulb-outline";
-import Sort from "material-ui/svg-icons/content/sort";
-import List from "material-ui/svg-icons/action/list";
-import ContentCopy from "material-ui/svg-icons/content/content-copy";
-import Done from "material-ui/svg-icons/action/done";
-import Schedule from "material-ui/svg-icons/action/schedule";
-import Favorite from "material-ui/svg-icons/action/favorite";
 import Avatar from "material-ui/Avatar";
 import QuickStart from "../components/QuickStart";
-import PowerSettingsNew from "material-ui/svg-icons/action/power-settings-new";
+import TheDrawer from "../components/TheDrawer";
 import Popover from "material-ui/Popover";
 import Badge from "material-ui/Badge";
 import {amber700} from "material-ui/styles/colors";
@@ -58,7 +47,7 @@ class DashBoardLayout extends Component {
       dispatch(SessionActions.SignOut());
       const res = yield Fetch("GET")("/users/sign-out")();
       if (res.status === 204) {
-        router.push('/');
+        router.push('/index');
         dispatch(SessionActions.SignOutSuccess());
       }
     });
@@ -146,110 +135,14 @@ class DashBoardLayout extends Component {
             />
           </Card>
         </Popover>
-        <Drawer
-          docked={false}
-          width={270}
+        <TheDrawer
           open={this.state.open}
-          onRequestChange={(open) => this.setState({open})}
-        >
-          <ListItem
-            style={{height: 80}}
-            disabled={true}
-            leftAvatar={
-              <Avatar
-                style={{top: 40}}
-                src={DashBoardLayout.getAvatar(user)}
-              />
-            }
-          >
-            <br/>
-            <br/>
-            {DashBoardLayout.getNickname(user)}
-          </ListItem>
-          <Divider />
-          <ListItem
-            primaryText="Problem List"
-            leftIcon={<List />}
-            initiallyOpen={false}
-            primaryTogglesNestedList={true}
-            nestedItems={[
-              <ListItem
-                key={1}
-                primaryText="Public"
-                leftIcon={<Sort />}
-                onTouchTap={this.handleClose}
-              />,
-              <ListItem
-                key={2}
-                primaryText="Created"
-                leftIcon={<ActionGrade />}
-                onTouchTap={this.handleClose}
-              />,
-              <ListItem
-                key={3}
-                primaryText="Participant"
-                leftIcon={<ContentSend />}
-                onTouchTap={this.handleClose}
-              />,
-            ]}
-          />
-          <ListItem
-            primaryText="Problem"
-            leftIcon={<LightBulbOutline />}
-            onTouchTap={() => {
-              this.handleClose();
-              this.props.router.push('/dashboard/problems');
-            }}
-          />
-          <ListItem
-            primaryText="Submission"
-            leftIcon={<ContentCopy/>}
-            initiallyOpen={false}
-            primaryTogglesNestedList={true}
-            nestedItems={[
-              <ListItem
-                key={1}
-                primaryText="Tested"
-                leftIcon={<Done />}
-                onTouchTap={this.handleClose}
-              />,
-              <ListItem
-                key={2}
-                primaryText="Pending"
-                leftIcon={<Schedule />}
-                onTouchTap={this.handleClose}
-              />
-            ]}
-          />
-          <Divider/>
-          <ListItem
-            primaryText="Favorite"
-            leftIcon={<Favorite />}
-            initiallyOpen={true}
-            primaryTogglesNestedList={true}
-            nestedItems={[
-              <ListItem
-                key={1}
-                primaryText="Problem"
-                onTouchTap={this.handleClose}
-              />,
-              <ListItem
-                key={2}
-                primaryText="Problem List"
-                onTouchTap={this.handleClose}
-              />
-            ]}
-          />
-          <Divider/>
-          <ListItem
-            primaryText="Sign Out"
-            leftIcon={<PowerSettingsNew />}
-            onTouchTap={() => {
-              this.handleClose();
-              this.onSignOut();
-            }}
-          />
-        </Drawer>
+          onRequestClose={() => this.setState({open: false})}
+          username={DashBoardLayout.getNickname(user)}
+          avatar={DashBoardLayout.getAvatar(user)}
+          onProblem={() => this.props.router.push('/dashboard/problems/new')}
+          onSignOut={this.onSignOut}
+        />
       </div>
     )
   }
