@@ -50,17 +50,25 @@ class Root extends Component {
           {this.props.children}
           {
             this.props.isLoading ?
-              <CircularProgress
-                size={80}
-                thickness={5}
+              <div
                 style={{
-                  position: 'fixed',
-                  top: '50%',
-                  left: '50%',
-                  zIndex: 100
+                  position: 'absolute',
+                  height: 80,
+                  width: '100%',
+                  top: '50%'
                 }}
-                color={amber700}
-              />
+              >
+                <CircularProgress
+                  size={80}
+                  thickness={5}
+                  style={{
+                    margin: '0 auto',
+                    display: 'block',
+                    zIndex: 100
+                  }}
+                  color={amber700}
+                />
+              </div>
               :
               null
           }
