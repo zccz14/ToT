@@ -65,4 +65,18 @@
         margin: 5px 2.5%;
     }
 
+    .sign-container {
+        position: static;
+        width: 95%;
+        margin: 5px 2.5%;
+    }
+}
+
+/* Mobile S */
+@media (max-width: 320px) {
+    .sign-container {
+        position: static;
+        width: 95%;
+        margin: 5px 2.5%;
+    }
 }
