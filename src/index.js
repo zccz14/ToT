@@ -12,6 +12,7 @@ import ViewProblem from "./containers/ViewProblem";
 import {Provider} from "react-redux";
 import Problems from "./containers/Problems";
 import BiogEdit from "./containers/BiogEdit";
+import ProblemListDetail from "./containers/ProblemListDetail";
 
 ReactDOM.render((
   <Provider store={store}>
@@ -23,6 +24,7 @@ ReactDOM.render((
           <Route path="problems" component={Problems}/>
           <Route path="problems/new" component={NewProblem}/>
           <Route path="problem-lists/new" component={NewProblemList}/>
+          <Route path="problem-lists/:id" component={ProblemListDetail}/>
           <Route path="problem/view" component={ViewProblem}/>
           <Route path="biography/edit" component={BiogEdit}/>
         </Route>
