@@ -3,6 +3,7 @@
  */
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import BioEdit from "../components/BioEdit";
 import AppBar from "material-ui/AppBar";
 import Drawer from "material-ui/Drawer";
 import Divider from "material-ui/Divider";
@@ -33,7 +34,8 @@ import URLs from "../url.json";
 class DashBoardLayout extends Component {
   state = {
     open: false,
-    openAvatar: false
+    openAvatar: false,
+    openBio: false
   };
   handleToggle = () => this.setState({open: !this.state.open});
   handleClose = () => this.setState({open: false});
@@ -96,7 +98,6 @@ class DashBoardLayout extends Component {
                 </IconButton>
               </Badge>
             </div>
-
           }
 
         />
@@ -131,7 +132,7 @@ class DashBoardLayout extends Component {
                 this.onSignOut();
               }}
             />
-            <FlatButton label="Action2"/>
+            <BioEdit onOpen={this.handleRequestClose}/>
           </Card>
         </Popover>
         <Drawer
