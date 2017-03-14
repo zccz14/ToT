@@ -3,14 +3,16 @@ import {connect} from "react-redux";
 import co from "co";
 import Fetch from "../utils/fetch";
 import * as ProblemActions from "../redux/modules/problem";
+import * as SessionActions from "../redux/modules/session";
 import ProblemCard from "../components/ProblemCard";
 
 class Problems extends Component {
   componentDidMount() {
     const {dispatch} = this.props;
     co(function*() {
+      dispatch(SessionActions.NetWork());
       const res = yield Fetch("GET")(`/problems?pageSize=${15}&pageNumber=${0}`)();
-
+      dispatch(SessionActions.NetWorkFinish());
       if (res.status === 200) {
         const data = yield res.json();
         dispatch(ProblemActions.Load(data.content));

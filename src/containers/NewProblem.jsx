@@ -14,7 +14,8 @@ class NewProblem extends Component {
       const res = yield Fetch("POST")('/problems')(args);
       dispatch(SessionActions.NetWorkFinish());
       if (res.status === 200) {
-        dispatch(ProblemActions.Create(args));
+        const data = yield res.json();
+        dispatch(ProblemActions.Create(data));
       } else {
 
       }
