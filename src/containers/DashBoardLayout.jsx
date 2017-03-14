@@ -28,7 +28,7 @@ import {Card, CardHeader, CardTitle, CardText} from "material-ui/Card";
 import * as SessionActions from "../redux/modules/session";
 import FlatButton from "material-ui/FlatButton";
 import co from "co";
-import URLs from "../url.json";
+import Fetch from "../utils/fetch";
 
 class DashBoardLayout extends Component {
   state = {
@@ -55,13 +55,7 @@ class DashBoardLayout extends Component {
     const {dispatch, router} = this.props;
     co(function*() {
       dispatch(SessionActions.SignOut());
-      const res = yield fetch(URLs.baseURL + "/users/sign-out", {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: 'include'
-      });
+      const res = yield Fetch("GET")("/users/sign-out")();
       if (res.status === 204) {
         dispatch(SessionActions.SignOutSuccess());
         router.push('/');
@@ -252,7 +246,7 @@ class DashBoardLayout extends Component {
 
 function select(state) {
   return {
-    Session: state.session
+    Session: state.Session
   }
 }
 
