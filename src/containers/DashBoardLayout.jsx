@@ -65,11 +65,13 @@ class DashBoardLayout extends Component {
 
   componentWillMount() {
     if (!this.props.Session.get('user')) {
+      console.log('push');
       this.props.router.push('/index');
     }
   }
 
   render() {
+    const {user} = this.props;
     return (
       <div>
         <AppBar
@@ -80,7 +82,7 @@ class DashBoardLayout extends Component {
               <Avatar
                 size={50}
                 style={{marginRight: 10}}
-                src="https://www.gravatar.com/avatar/"
+                src={DashBoardLayout.getAvatar(user)}
                 onClick={this.handleTouchTag}
               />
               <Badge
@@ -114,13 +116,13 @@ class DashBoardLayout extends Component {
           <Card
             style={{width: 300}}>
             <CardHeader
-              title="Username"
-              subtitle="e-mail"
-              avatar="https://www.gravatar.com/avatar/"
+              title={(user && user.get('username')) || "Guest"}
+              subtitle={(user && user.get('email')) || ""}
+              avatar={(user && user.get('profile').get('avatar')) || ""}
             />
-            <CardTitle title="Nickname" subtitle="Biography"/>
+            <CardTitle title={DashBoardLayout.getNickname(user)} subtitle="Biography"/>
             <CardText>
-              就是我，帅若天仙的小侠女！
+              {DashBoardLayout.getBio(user)}
             </CardText>
             <Divider />
             <FlatButton
@@ -153,13 +155,13 @@ class DashBoardLayout extends Component {
             leftAvatar={
               <Avatar
                 style={{top: 40}}
-                src="https://www.gravatar.com/avatar/"
+                src={DashBoardLayout.getAvatar(user)}
               />
             }
           >
             <br/>
             <br/>
-            Image Avatar
+            {DashBoardLayout.getNickname(user)}
           </ListItem>
           <Divider />
           <ListItem
@@ -248,11 +250,33 @@ class DashBoardLayout extends Component {
       </div>
     )
   }
+
+  static getNickname(user) {
+    if (user === null) {
+      return "Guest";
+    }
+    return user.get('profile').get('nickname') || user.get('username');
+  }
+
+  static getBio(user) {
+    if (user === null) {
+      return "Welcome to XJTUOJ";
+    }
+    return user.get('profile').get('bio') || "Boring";
+  }
+
+  static getAvatar(user) {
+    if (user === null) {
+      return "https://www.gravatar.com/avatar/"; // default avatar
+    }
+    return user.get('profile').get('avatar') || "https://www.gravatar.com/avatar/";
+  }
 }
 
 function select(state) {
   return {
-    Session: state.Session
+    Session: state.Session,
+    user: state.Session.get('user')
   }
 }
 
