@@ -55,7 +55,8 @@ class Root extends Component {
                   position: 'fixed',
                   height: 80,
                   width: '100%',
-                  top: '50%'
+                  top: '50%',
+                  zIndex: 10
                 }}
               >
                 <CircularProgress
