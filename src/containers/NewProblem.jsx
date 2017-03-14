@@ -2,20 +2,21 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import ProblemBuilder from "../components/ProblemBuilder";
 import co from "co";
-import URLs from "../url.json";
+import * as ProblemActions from "../redux/modules/problem";
+import Fetch from "../utils/fetch";
+import * as SessionActions from "../redux/modules/session";
 
 class NewProblem extends Component {
   onCreate = (args) => {
+    const {dispatch} = this.props;
     co(function*() {
-      const res = yield fetch(URLs.baseURL + '/problems', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify(args)
-      });
+      dispatch(SessionActions.NetWork());
+      const res = yield Fetch("POST")('/problems')(args);
+      dispatch(SessionActions.NetWorkFinish());
       if (res.status === 200) {
+        const data = yield res.json();
+        dispatch(ProblemActions.Create(data));
+      } else {
 
       }
     })

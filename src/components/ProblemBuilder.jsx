@@ -32,14 +32,24 @@ class ProblemBuilder extends Component {
     }
   };
 
+  getAddons = () => {
+    switch (this.state.type) {
+      case 'MULTIPLE_CHOICE_SINGLE_ANSWER':
+      case 'MULTIPLE_CHOICE_MULTIPLE_ANSWERS':
+        return this.state.choice;
+      default:
+        return null;
+    }
+  };
+
   onCreate = () => {
     console.log(this.refs.description.input);
     this.props.onCreate({
       title: this.refs.title.input.value,
-      description: this.refs.description.input.refs.input.value, // for multiLine TextField
+      description: this.refs.description.input.refs.input.value,
       type: this.state.type,
       referenceAnswer: this.getAnswer(),
-      choice: this.state.choice
+      addons: this.getAddons()
     });
   };
 
