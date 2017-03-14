@@ -34,7 +34,7 @@ class TheDrawer extends Component {
         docked={false}
         width={270}
         open={this.props.open}
-        onRequestChange={this.props.onRequestClose}
+        onRequestChange={this.props.onRequestChange}
       >
         <ListItem
           style={{height: 80}}

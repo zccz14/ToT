@@ -137,6 +137,7 @@ class DashBoardLayout extends Component {
         </Popover>
         <TheDrawer
           open={this.state.open}
+          onRequestChange={(open) => this.setState({open})}
           onRequestClose={() => this.setState({open: false})}
           username={DashBoardLayout.getNickname(user)}
           avatar={DashBoardLayout.getAvatar(user)}
