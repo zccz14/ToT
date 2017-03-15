@@ -33,6 +33,10 @@ class Index extends Component {
         dispatch(SessionActions.SignInSuccess(data));
         dispatch(SessionActions.MessageAppend(`Hi, ${UserUtil.getNickname(data)}`));
         router.push('/dashboard');
+      } else if (res.status === 400) {
+        const error = yield res.json();
+        dispatch(SessionActions.SignInFailed(error));
+        dispatch(SessionActions.MessageAppend(`Bad Request: ${error.message}`));
       } else if (res.status === 404) {
         const data = yield res.json();
         dispatch(SessionActions.SignInFailed(data));
