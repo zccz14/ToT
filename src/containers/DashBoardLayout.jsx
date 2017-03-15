@@ -18,6 +18,7 @@ import * as SessionActions from "../redux/modules/session";
 import FlatButton from "material-ui/FlatButton";
 import co from "co";
 import Fetch from "../utils/fetch";
+import Config from "../config";
 
 class DashBoardLayout extends Component {
   state = {
@@ -164,9 +165,9 @@ class DashBoardLayout extends Component {
 
   static getAvatar(user) {
     if (!user) {
-      return "https://www.gravatar.com/avatar/"; // default avatar
+      return Config.avatarURL;
     }
-    return user.get('profile').get('avatar') || "https://www.gravatar.com/avatar/";
+    return user.get('profile').get('avatar') || Config.avatarURL;
   }
 
   static getEmail(user) {
