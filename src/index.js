@@ -13,6 +13,7 @@ import {Provider} from "react-redux";
 import Problems from "./containers/Problems";
 import BiogEdit from "./containers/BiogEdit";
 import ProblemListDetail from "./containers/ProblemListDetail";
+import PublicProblemList from "./containers/PublicProblemList";
 
 ReactDOM.render((
   <Provider store={store}>
