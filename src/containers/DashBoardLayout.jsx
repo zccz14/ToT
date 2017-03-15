@@ -19,6 +19,7 @@ import FlatButton from "material-ui/FlatButton";
 import co from "co";
 import Fetch from "../utils/fetch";
 import UserUtil from "../utils/user";
+import Guidance from "../containers/Guidance";
 
 class DashBoardLayout extends Component {
   state = {
@@ -156,6 +157,7 @@ class DashBoardLayout extends Component {
           onProblem={() => this.props.router.push('/dashboard/problems')}
           onSignOut={this.onSignOut}
         />
+        <Guidance/>
       </div>
     )
   }
