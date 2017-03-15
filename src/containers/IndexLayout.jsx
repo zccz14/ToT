@@ -85,7 +85,7 @@ class Index extends Component {
   fetchProblemLists = () => {
     const {dispatch} = this.props;
     co(function*() {
-      const res = yield Fetch("GET")("/problemLists/?pageNumber=1&pageSize=10")();
+      const res = yield Fetch("GET")("/problemLists/?pageNumber=1&pageSize=30")();
       switch (res.status) {
         case 200: {
           let data = yield res.json();
