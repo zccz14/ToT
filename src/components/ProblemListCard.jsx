@@ -1,23 +1,34 @@
 import React, {Component} from "react";
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from "material-ui/Card";
+import {Card, CardActions, CardMedia, CardTitle, CardText} from "material-ui/Card";
 import FlatButton from "material-ui/FlatButton";
+import ProblemListUtil from "../utils/problem_list";
 
 class ProblemListCard extends Component {
   render() {
+    const {problemList} = this.props;
     return (
-      <Card className="flex-item" style={this.props.style} zDepth={2}>
-        <CardHeader
-          title={this.props.creatorName}
-          subtitle={this.props.date}
-          avatar={this.props.creatorAvatar || 'https://www.gravatar.com/avatar/'}
-          textStyle={{padding: 0}}
-        />
+      <Card
+        className="flex-item"
+        style={{
+          height: 500,
+          overflow: 'hidden'
+        }}
+        zDepth={2}
+      >
         <CardMedia
+          style={{
+            height: 400,
+            overflow: 'hidden'
+          }}
           overlay={
             <CardTitle title={this.props.title}/>
           }
         >
-          <img src="http://www.material-ui.com/images/nature-600-337.jpg" alt="haha"/>
+          <img
+            src={ProblemListUtil.getCoverURL(problemList)}
+            role="presentation"
+            style={{maxHeight: '400px'}}
+          />
         </CardMedia>
         <CardText>
           {this.props.description || "暂无简介"}

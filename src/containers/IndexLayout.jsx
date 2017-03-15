@@ -46,8 +46,6 @@ class Index extends Component {
         dispatch(SessionActions.SignInFailed(data));
         dispatch(SessionActions.MessageAppend(`Wrong username or password`));
       }
-    }).catch((e) => {
-      dispatch(SessionActions.SignInFailed(e));
     });
   };
 
@@ -81,8 +79,6 @@ class Index extends Component {
         }
         default:
       }
-    }).catch((e) => {
-      dispatch(SessionActions.SignUpFailed(e));
     });
   };
 
@@ -127,6 +123,7 @@ class Index extends Component {
             this.props.ProblemList.get('items').map((v, i) => (
               <ProblemListCard
                 key={i}
+                problemList={v}
                 title={v.title}
                 creatorName={v.creator}
                 date={new Date(parseInt(i.slice(0, 8), 16) * 1000).toLocaleString()}
