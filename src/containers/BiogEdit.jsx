@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import TextField from "material-ui/TextField";
 import Paper from "material-ui/Paper";
 import FlatButton from "material-ui/FlatButton";
+import UserUtil from "../utils/user";
 
 class BiogEdit extends Component {
   state = {
@@ -17,56 +18,69 @@ class BiogEdit extends Component {
   };
 
   render() {
+    const {user} = this.props;
     return (
       <div>
         <Paper
-          style={{height: 500, width: 700, padding: 50, margin: "20px auto", position: "relative"}}
+          style={{
+            width: '95%',
+            padding: 50,
+            margin: "20px auto",
+            position: "relative"
+          }}
           zDepth={2}
         >
           <Paper
-            style={{margin: "0 auto", textAline: 'center', height: 100, width: 100, overflow: "hidden"}}
+            style={{
+              margin: "0 auto",
+              height: 100,
+              width: 100,
+              overflow: "hidden"
+            }}
             circle={true}
             zDepth={2}
           >
-            <img src="https://www.gravatar.com/avatar/" alt="你又看不见，活该" style={{width: "100%"}}/>
+            <img src={UserUtil.getAvatar(user)} style={{width: "100%"}} role="presentation"/>
           </Paper>
           <TextField
             id="Nickname"
             floatingLabelText="Nickname"
-            defaultValue="小侠女"
-          /><br />
+            defaultValue={UserUtil.getNickname(user)}
+          />
+          <br />
           <TextField
-            hintText="Biography"
-            defaultValue="帅若天仙"
             floatingLabelText="Biography"
+            hintText="Biography"
+            defaultValue={UserUtil.getBio(user)}
             multiLine={true}
             rows={2}
             rowsMax={8}
             fullWidth={true}
-          /><br />
-          <FlatButton
-            label="Cancel"
-            primary={true}
-            onTouchTap={this.handleClose}
-            style={{bottom: 10, marginRight: 10, marginLeft: 380, position: "absolute"}}
-            onClick={() => this.props.router.push('/dashboard')}
           />
+          <br />
           <FlatButton
-            label="Submit"
+            label="Save"
             primary={true}
             keyboardFocused={true}
             onTouchTap={this.handleClose}
-            style={{bottom: 10, position: "absolute", marginLeft: 480}}
+          />
+          <FlatButton
+            label="Cancel"
+            secondary={true}
+            onTouchTap={this.handleClose}
+            onClick={() => this.props.router.goBack()}
           />
         </Paper>
       </div>
     )
   }
+
 }
 
 function select(state) {
   return {
-    Session: state.Session
+    Session: state.Session,
+    user: state.Session.get('user')
   }
 }
 

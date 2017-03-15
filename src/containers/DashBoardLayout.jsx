@@ -18,16 +18,15 @@ import * as SessionActions from "../redux/modules/session";
 import FlatButton from "material-ui/FlatButton";
 import co from "co";
 import Fetch from "../utils/fetch";
-import Config from "../config";
+import UserUtil from "../utils/user";
 
 class DashBoardLayout extends Component {
   state = {
-    open: false,
     openAvatar: false,
     openBio: false
   };
-  handleToggle = () => this.setState({open: !this.state.open});
-  handleClose = () => this.setState({open: false});
+  handleToggle = () => this.props.dispatch(SessionActions.DrawerToggle());
+  handleClose = () => this.props.dispatch(SessionActions.DrawerClose());
   handleTouchTag = (event) => {
     event.preventDefault();
     this.setState({
@@ -61,7 +60,8 @@ class DashBoardLayout extends Component {
   }
 
   render() {
-    const {user} = this.props;
+    const {user, dispatch} = this.props;
+    const messagesCount = UserUtil.getMessagesCount(user);
     return (
       <div>
         <AppBar
@@ -72,22 +72,33 @@ class DashBoardLayout extends Component {
               <Avatar
                 size={50}
                 style={{marginRight: 10}}
-                src={DashBoardLayout.getAvatar(user)}
+                src={UserUtil.getAvatar(user)}
                 onClick={this.handleTouchTag}
               />
-              <Badge
-                style={{padding: 0, top: -8}}
-                badgeContent={'99+'}
-                secondary={true}
-                badgeStyle={{top: 0, right: 0, backgroundColor: amber700}}
-              >
-                <IconButton
-                  tooltip="通知"
-                  style={{paddingTop: 18, paddingBottom: 6}}
-                >
-                  <NotificationsIcon color={'#ffffff'}/>
-                </IconButton>
-              </Badge>
+              {
+                messagesCount === 0 ?
+                  <IconButton
+                    tooltip="通知"
+                    style={{padding: 0, top: -12}}
+                  >
+                    <NotificationsIcon color={'#ffffff'}/>
+                  </IconButton>
+                  :
+                  <Badge
+                    style={{padding: 0, top: -8}}
+                    badgeContent={messagesCount}
+                    secondary={true}
+                    badgeStyle={{top: 0, right: 0, backgroundColor: amber700}}
+                  >
+                    <IconButton
+                      tooltip="通知"
+                      style={{paddingTop: 18, paddingBottom: 6}}
+                    >
+                      <NotificationsIcon color={'#ffffff'}/>
+                    </IconButton>
+                  </Badge>
+
+              }
             </div>
           }
 
@@ -109,13 +120,13 @@ class DashBoardLayout extends Component {
           <Card
             style={{width: 300}}>
             <CardHeader
-              title={DashBoardLayout.getUsername(user)}
-              subtitle={DashBoardLayout.getEmail(user)}
-              avatar={DashBoardLayout.getAvatar(user)}
+              title={UserUtil.getUsername(user)}
+              subtitle={UserUtil.getEmail(user)}
+              avatar={UserUtil.getAvatar(user)}
             />
-            <CardTitle title={DashBoardLayout.getNickname(user)} subtitle="Biography"/>
+            <CardTitle title={UserUtil.getNickname(user)} subtitle="Biography"/>
             <CardText>
-              {DashBoardLayout.getBio(user)}
+              {UserUtil.getBio(user)}
             </CardText>
             <Divider />
             <FlatButton
@@ -137,58 +148,25 @@ class DashBoardLayout extends Component {
           </Card>
         </Popover>
         <TheDrawer
-          open={this.state.open}
-          onRequestChange={(open) => this.setState({open})}
-          onRequestClose={() => this.setState({open: false})}
-          username={DashBoardLayout.getNickname(user)}
-          avatar={DashBoardLayout.getAvatar(user)}
-          onProblem={() => this.props.router.push('/dashboard/problems/new')}
+          open={this.props.isDrawerOpen}
+          onRequestChange={(open) => dispatch(SessionActions.DrawerChange(open))}
+          onRequestClose={() => dispatch(SessionActions.DrawerClose())}
+          username={UserUtil.getNickname(user)}
+          avatar={UserUtil.getAvatar(user)}
+          onProblem={() => this.props.router.push('/dashboard/problems')}
           onSignOut={this.onSignOut}
         />
       </div>
     )
   }
 
-  static getNickname(user) {
-    if (!user) {
-      return "Guest";
-    }
-    return user.get('profile').get('nickname') || user.get('username');
-  }
-
-  static getBio(user) {
-    if (!user) {
-      return "Welcome to XJTUOJ";
-    }
-    return user.get('profile').get('bio') || "Boring";
-  }
-
-  static getAvatar(user) {
-    if (!user) {
-      return Config.avatarURL;
-    }
-    return user.get('profile').get('avatar') || Config.avatarURL;
-  }
-
-  static getEmail(user) {
-    if (!user) {
-      return "guest@funcxy.com";
-    }
-    return user.get('email');
-  }
-
-  static getUsername(user) {
-    if (!user) {
-      return "guest";
-    }
-    return user.get('username');
-  }
 }
 
 function select(state) {
   return {
     Session: state.Session,
-    user: state.Session.get('user')
+    user: state.Session.get('user'),
+    isDrawerOpen: state.Session.get('isDrawerOpen')
   }
 }
 

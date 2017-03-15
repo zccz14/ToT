@@ -22,11 +22,11 @@ class Index extends Component {
     }
   }
 
-  onSignIn = (username, password) => {
+  onSignIn = (args) => {
     const {dispatch, router} = this.props;
     co(function*() {
       dispatch(SessionActions.SignIn());
-      const res = yield Fetch("POST")("/users/sign-in")({username, password});
+      const res = yield Fetch("POST")("/users/sign-in")(args);
       if (res.status === 200) {
         const data = yield res.json();
         dispatch(SessionActions.SignInSuccess(data));
