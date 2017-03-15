@@ -12,7 +12,7 @@ import "./index.css";
 import co from "co";
 import * as ProblemListActions from "../redux/modules/problem_list";
 import UserUtil from "../utils/user";
-
+import Immutable from "immutable";
 
 class Index extends Component {
   componentWillMount() {
@@ -29,7 +29,7 @@ class Index extends Component {
       dispatch(SessionActions.SignIn());
       const res = yield Fetch("POST")("/users/sign-in")(args);
       if (res.status === 200) {
-        const data = yield res.json();
+        const data = Immutable.fromJS(yield res.json());
         dispatch(SessionActions.SignInSuccess(data));
         dispatch(SessionActions.MessageAppend(`Hi, ${UserUtil.getNickname(data)}`));
         router.push('/dashboard');

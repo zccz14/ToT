@@ -108,7 +108,7 @@ class DashBoardLayout extends Component {
           {
             this.props.children ?
               this.props.children :
-              <Guidance/>
+              <Guidance router={this.props.router}/>
           }
         </div>
         <QuickStart

@@ -3,6 +3,7 @@ import {ListItem} from "material-ui/List";
 import IconButton from "material-ui/IconButton";
 import ModeEdit from "material-ui/svg-icons/editor/mode-edit";
 import Delete from "material-ui/svg-icons/action/delete";
+import LibraryBooks from "material-ui/svg-icons/av/library-books";
 class ResourceItem extends Component {
   render() {
     return (
@@ -16,6 +17,9 @@ class ResourceItem extends Component {
             margin: 0,
             height: 48
           }}>
+            <IconButton onTouchTap={() => this.props.onDetail()}>
+              <LibraryBooks/>
+            </IconButton>
             <IconButton onTouchTap={() => this.props.onEdit()}>
               <ModeEdit />
             </IconButton>

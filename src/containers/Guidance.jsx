@@ -21,9 +21,11 @@ class Guidance extends Component {
           <List>
             <Subheader inset={true}>Latest Problem List Created</Subheader>
             {
-              [1, 2, 3, 4].map((v, i) => (<ResourceItem
-                  title={v}
-                  subtitle={v * v * v}
+              this.props.ProblemList.get('items').map((v, i) => (
+                <ResourceItem
+                  title={v.title}
+                  subtitle={i}
+                  onDetail={() => this.props.router.push(`/dashboard/problem-lists/${i}`)}
                   onEdit={() => console.log('edit', i)}
                   onDelete={() => console.log('delete', i)}
                   icon={<FileFolder />}
@@ -75,7 +77,8 @@ class Guidance extends Component {
 
 function select(state) {
   return {
-    Session: state.session
+    Session: state.Session,
+    ProblemList: state.ProblemList
   }
 }
 
