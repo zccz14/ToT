@@ -22,12 +22,11 @@ import Config from "../config";
 
 class DashBoardLayout extends Component {
   state = {
-    open: false,
     openAvatar: false,
     openBio: false
   };
-  handleToggle = () => this.setState({open: !this.state.open});
-  handleClose = () => this.setState({open: false});
+  handleToggle = () => this.props.dispatch(SessionActions.DrawerToggle());
+  handleClose = () => this.props.dispatch(SessionActions.DrawerClose());
   handleTouchTag = (event) => {
     event.preventDefault();
     this.setState({
@@ -61,7 +60,7 @@ class DashBoardLayout extends Component {
   }
 
   render() {
-    const {user} = this.props;
+    const {user, dispatch} = this.props;
     return (
       <div>
         <AppBar
@@ -137,9 +136,9 @@ class DashBoardLayout extends Component {
           </Card>
         </Popover>
         <TheDrawer
-          open={this.state.open}
-          onRequestChange={(open) => this.setState({open})}
-          onRequestClose={() => this.setState({open: false})}
+          open={this.props.isDrawerOpen}
+          onRequestChange={(open) => dispatch(SessionActions.DrawerChange(open))}
+          onRequestClose={() => dispatch(SessionActions.DrawerClose())}
           username={DashBoardLayout.getNickname(user)}
           avatar={DashBoardLayout.getAvatar(user)}
           onProblem={() => this.props.router.push('/dashboard/problems/new')}
@@ -188,7 +187,8 @@ class DashBoardLayout extends Component {
 function select(state) {
   return {
     Session: state.Session,
-    user: state.Session.get('user')
+    user: state.Session.get('user'),
+    isDrawerOpen: state.Session.get('isDrawerOpen')
   }
 }
 
