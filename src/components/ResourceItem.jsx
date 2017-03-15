@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import FileFolder from "material-ui/svg-icons/file/folder";
 import {ListItem} from "material-ui/List";
 import IconButton from "material-ui/IconButton";
 import ModeEdit from "material-ui/svg-icons/editor/mode-edit";
@@ -8,7 +7,7 @@ class ResourceItem extends Component {
   render() {
     return (
       <ListItem
-        leftIcon={<FileFolder />}
+        leftIcon={this.props.icon}
         primaryText={this.props.title}
         secondaryText={this.props.subtitle}
         rightIcon={
