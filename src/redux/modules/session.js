@@ -20,6 +20,10 @@ const DrawerOpenAction = "DRAWER_OPEN";
 const DrawerCloseAction = "DRAWER_CLOSE";
 const DrawerChangeAction = "DRAWER_CHANGE";
 const DrawerToggleAction = "DRAWER_TOGGLE";
+// Message
+const BarOpenAction = "BAR_OPEN";
+const BarCloseAction = "BAR_CLOSE";
+const MessageAppendAction = "MESSAGE_APPEND";
 
 export const SignIn = createAction(SignInAction);
 export const SignInSuccess = createAction(SignInSuccessAction);
@@ -38,11 +42,18 @@ export const DrawerClose = createAction(DrawerCloseAction);
 export const DrawerChange = createAction(DrawerChangeAction);
 export const DrawerToggle = createAction(DrawerToggleAction);
 
+export const BarOpen = createAction(BarOpenAction);
+export const BarClose = createAction(BarCloseAction);
+export const MessageAppend = createAction(MessageAppendAction);
+
 const initState = Immutable.fromJS({
   errors: [],
   user: null,
   network: false,
-  isDrawerOpen: false
+  isDrawerOpen: false,
+  isBarOpen: false,
+  currentMessage: '',
+  messages: []
 });
 
 export default function reducer(state = initState, action) {
@@ -76,6 +87,31 @@ export default function reducer(state = initState, action) {
       return state.set('isDrawerOpen', !state.get('isDrawerOpen'));
     case DrawerChangeAction:
       return state.set('isDrawerOpen', action.payload);
+    case BarOpenAction:
+      return state.set('isBarOpen', true);
+    case BarCloseAction: {
+      let newState = state;
+      let queue = newState.get('messages');
+      if (queue.size === 0) {
+        return state.set('isBarOpen', false);
+      } else {
+        newState = newState.set('currentMessage', queue.first());
+        return newState.set('messages', queue.shift());
+      }
+    }
+    case MessageAppendAction: {
+      let newState = state;
+      let queue = newState.get('messages');
+      if (state.get('isBarOpen')) {
+        queue = queue.push(action.payload);
+      } else {
+        newState = newState
+          .set('isBarOpen', true)
+          .set('currentMessage', action.payload);
+      }
+      newState = newState.set('messages', queue);
+      return newState;
+    }
     default:
       return state;
   }

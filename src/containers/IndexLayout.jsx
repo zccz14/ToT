@@ -11,6 +11,7 @@ import Fetch from "../utils/fetch";
 import "./index.css";
 import co from "co";
 import * as ProblemListActions from "../redux/modules/problem_list";
+import UserUtil from "../utils/user";
 
 
 class Index extends Component {
@@ -30,13 +31,20 @@ class Index extends Component {
       if (res.status === 200) {
         const data = yield res.json();
         dispatch(SessionActions.SignInSuccess(data));
+        dispatch(SessionActions.MessageAppend(`Hi, ${UserUtil.getNickname(data)}`));
         router.push('/dashboard');
+      } else if (res.status === 400) {
+        const error = yield res.json();
+        dispatch(SessionActions.SignInFailed(error));
+        dispatch(SessionActions.MessageAppend(`Bad Request: ${error.message}`));
       } else if (res.status === 404) {
         const data = yield res.json();
         dispatch(SessionActions.SignInFailed(data));
+        dispatch(SessionActions.MessageAppend(`Umm, no such user ${args.username}`));
       } else if (res.status === 403) {
         const data = yield res.json();
         dispatch(SessionActions.SignInFailed(data));
+        dispatch(SessionActions.MessageAppend(`Wrong username or password`));
       }
     }).catch((e) => {
       dispatch(SessionActions.SignInFailed(e));
@@ -48,19 +56,29 @@ class Index extends Component {
     co(function*() {
       dispatch(SessionActions.SignUp());
       const res = yield Fetch("POST")("/users/sign-up")(argSignUp);
-      const data = yield res.json();
       switch (res.status) {
-        case 200:
-        case 201:
+        case 201: {
           // Sign Up Success
-          dispatch(SessionActions.SignUpSuccess(data));
+          const user = UserUtil.fromJS(yield res.json());
+          dispatch(SessionActions.SignUpSuccess(user));
+          dispatch(SessionActions.MessageAppend(`Welcome freshman, ${UserUtil.getNickname(user)}`));
           router.push('/dashboard');
           break;
-        case 400:
-        case 409:
-          // Duplicate
+        }
+        case 400: {
+          // Bad Request
+          const data = yield res.json();
           dispatch(SessionActions.SignUpFailed(data));
+          dispatch(SessionActions.MessageAppend(`Bad request: ${data}`));
           break;
+        }
+        case 409: {
+          // Duplicate
+          const data = yield res.json();
+          dispatch(SessionActions.SignUpFailed(data));
+          dispatch(SessionActions.MessageAppend(`Duplicate`));
+          break;
+        }
         default:
       }
     }).catch((e) => {

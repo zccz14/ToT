@@ -22,7 +22,7 @@ class NewProblem extends Component {
     })
   };
   onCancel = () => {
-    this.props.router.push('/dashboard');
+    this.props.router.goBack();
   };
 
   render() {

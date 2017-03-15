@@ -20,10 +20,17 @@ class NewProblemList extends Component {
     });
   };
 
+  handleCancel = () => {
+    this.props.router.goBack();
+  };
+
   render() {
     return (
       <div>
-        <ProblemBuilder onCreate={this.handleCreate}/>
+        <ProblemBuilder
+          onCreate={this.handleCreate}
+          onCancel={this.handleCancel}
+        />
       </div>
     )
   }
