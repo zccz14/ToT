@@ -4,7 +4,10 @@ import RaisedButton from "material-ui/RaisedButton";
 
 class SignInBox extends Component {
   submit = () => {
-    this.props.onSignIn(this.refs.username.input.value, this.refs.password.input.value)
+    this.props.onSignIn({
+      username: this.refs.username.input.value,
+      password: this.refs.password.input.value
+    });
   };
 
   onKeyDown = (e) => {
