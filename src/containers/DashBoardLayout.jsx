@@ -61,6 +61,7 @@ class DashBoardLayout extends Component {
 
   render() {
     const {user, dispatch} = this.props;
+    const messagesCount = DashBoardLayout.getMessagesCount(user);
     return (
       <div>
         <AppBar
@@ -74,19 +75,30 @@ class DashBoardLayout extends Component {
                 src={DashBoardLayout.getAvatar(user)}
                 onClick={this.handleTouchTag}
               />
-              <Badge
-                style={{padding: 0, top: -8}}
-                badgeContent={'99+'}
-                secondary={true}
-                badgeStyle={{top: 0, right: 0, backgroundColor: amber700}}
-              >
-                <IconButton
-                  tooltip="通知"
-                  style={{paddingTop: 18, paddingBottom: 6}}
-                >
-                  <NotificationsIcon color={'#ffffff'}/>
-                </IconButton>
-              </Badge>
+              {
+                messagesCount === 0 ?
+                  <IconButton
+                    tooltip="通知"
+                    style={{padding: 0, top: -12}}
+                  >
+                    <NotificationsIcon color={'#ffffff'}/>
+                  </IconButton>
+                  :
+                  <Badge
+                    style={{padding: 0, top: -8}}
+                    badgeContent={messagesCount}
+                    secondary={true}
+                    badgeStyle={{top: 0, right: 0, backgroundColor: amber700}}
+                  >
+                    <IconButton
+                      tooltip="通知"
+                      style={{paddingTop: 18, paddingBottom: 6}}
+                    >
+                      <NotificationsIcon color={'#ffffff'}/>
+                    </IconButton>
+                  </Badge>
+
+              }
             </div>
           }
 
@@ -141,7 +153,7 @@ class DashBoardLayout extends Component {
           onRequestClose={() => dispatch(SessionActions.DrawerClose())}
           username={DashBoardLayout.getNickname(user)}
           avatar={DashBoardLayout.getAvatar(user)}
-          onProblem={() => this.props.router.push('/dashboard/problems/new')}
+          onProblem={() => this.props.router.push('/dashboard/problems')}
           onSignOut={this.onSignOut}
         />
       </div>
@@ -181,6 +193,13 @@ class DashBoardLayout extends Component {
       return "guest";
     }
     return user.get('username');
+  }
+
+  static getMessagesCount(user) {
+    if (!user) {
+      return 0;
+    }
+    return user.get('messages').size;
   }
 }
 
