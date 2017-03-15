@@ -3,11 +3,11 @@
  */
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import GuidanceEditIcon from "../components/GuidanceEditIcon";
 import Paper from "material-ui/Paper";
-import FileFolder from "material-ui/svg-icons/file/folder";
-import {List, ListItem} from "material-ui/List";
+import {List} from "material-ui/List";
 import Subheader from "material-ui/Subheader";
+import ResourceItem from "../components/ResourceItem";
+
 
 class Guidance extends Component {
   render() {
@@ -19,25 +19,15 @@ class Guidance extends Component {
         >
           <List>
             <Subheader inset={true}>Latest Problem List Created</Subheader>
-            <ListItem
-              leftIcon={<FileFolder />}
-              primaryText="problem list title"
-              secondaryText="Date eg.March 15 2017"
-              style={{display: "inlineBlock"}}
-            >
-              <GuidanceEditIcon/>
-            </ListItem>
-
-            <ListItem
-              leftIcon={<FileFolder />}
-              primaryText="problem list title"
-              secondaryText="Date eg.March 15 2017"
-            />
-            <ListItem
-              leftIcon={<FileFolder />}
-              primaryText="problem list title"
-              secondaryText="Date eg.March 15 2017"
-            />
+            {
+              [1, 2, 3, 4].map((v, i) => (<ResourceItem
+                  title={v}
+                  subtitle={v * v}
+                  onEdit={() => console.log('edit', i)}
+                  onDelete={() => console.log('delete', i)}
+                />)
+              )
+            }
           </List>
         </Paper>
       </div>
