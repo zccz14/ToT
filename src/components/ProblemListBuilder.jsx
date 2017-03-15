@@ -10,8 +10,8 @@ class ProblemListBuilder extends Component {
     this.props.onCreate({
       title: this.refs.title.input.value,
       coverUrl: this.refs.coverUrl.input.value,
-      isPublic: this.refs.isPublic.isChecked(),
-      isAnonymous: this.refs.isAllowAnonymous.isChecked(),
+      public: this.refs.isPublic.isChecked(),
+      anonymous: this.refs.isAllowAnonymous.isChecked(),
       submitterVisibleToJudge: this.refs.canJudgerSeeSubmitter.isChecked(),
       resultVisibleToOthers: this.refs.isSentencePublic.isChecked(),
       canBeCopied: this.refs.isAllowCopy.isChecked()
