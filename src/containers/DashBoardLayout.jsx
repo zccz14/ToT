@@ -18,7 +18,7 @@ import * as SessionActions from "../redux/modules/session";
 import FlatButton from "material-ui/FlatButton";
 import co from "co";
 import Fetch from "../utils/fetch";
-import Config from "../config";
+import UserUtil from "../utils/user";
 
 class DashBoardLayout extends Component {
   state = {
@@ -61,7 +61,7 @@ class DashBoardLayout extends Component {
 
   render() {
     const {user, dispatch} = this.props;
-    const messagesCount = DashBoardLayout.getMessagesCount(user);
+    const messagesCount = UserUtil.getMessagesCount(user);
     return (
       <div>
         <AppBar
@@ -72,7 +72,7 @@ class DashBoardLayout extends Component {
               <Avatar
                 size={50}
                 style={{marginRight: 10}}
-                src={DashBoardLayout.getAvatar(user)}
+                src={UserUtil.getAvatar(user)}
                 onClick={this.handleTouchTag}
               />
               {
@@ -120,13 +120,13 @@ class DashBoardLayout extends Component {
           <Card
             style={{width: 300}}>
             <CardHeader
-              title={DashBoardLayout.getUsername(user)}
-              subtitle={DashBoardLayout.getEmail(user)}
-              avatar={DashBoardLayout.getAvatar(user)}
+              title={UserUtil.getUsername(user)}
+              subtitle={UserUtil.getEmail(user)}
+              avatar={UserUtil.getAvatar(user)}
             />
-            <CardTitle title={DashBoardLayout.getNickname(user)} subtitle="Biography"/>
+            <CardTitle title={UserUtil.getNickname(user)} subtitle="Biography"/>
             <CardText>
-              {DashBoardLayout.getBio(user)}
+              {UserUtil.getBio(user)}
             </CardText>
             <Divider />
             <FlatButton
@@ -151,8 +151,8 @@ class DashBoardLayout extends Component {
           open={this.props.isDrawerOpen}
           onRequestChange={(open) => dispatch(SessionActions.DrawerChange(open))}
           onRequestClose={() => dispatch(SessionActions.DrawerClose())}
-          username={DashBoardLayout.getNickname(user)}
-          avatar={DashBoardLayout.getAvatar(user)}
+          username={UserUtil.getNickname(user)}
+          avatar={UserUtil.getAvatar(user)}
           onProblem={() => this.props.router.push('/dashboard/problems')}
           onSignOut={this.onSignOut}
         />
@@ -160,47 +160,6 @@ class DashBoardLayout extends Component {
     )
   }
 
-  static getNickname(user) {
-    if (!user) {
-      return "Guest";
-    }
-    return user.get('profile').get('nickname') || user.get('username');
-  }
-
-  static getBio(user) {
-    if (!user) {
-      return "Welcome to XJTUOJ";
-    }
-    return user.get('profile').get('bio') || "Boring";
-  }
-
-  static getAvatar(user) {
-    if (!user) {
-      return Config.avatarURL;
-    }
-    return user.get('profile').get('avatar') || Config.avatarURL;
-  }
-
-  static getEmail(user) {
-    if (!user) {
-      return "guest@funcxy.com";
-    }
-    return user.get('email');
-  }
-
-  static getUsername(user) {
-    if (!user) {
-      return "guest";
-    }
-    return user.get('username');
-  }
-
-  static getMessagesCount(user) {
-    if (!user) {
-      return 0;
-    }
-    return user.get('messages').size;
-  }
 }
 
 function select(state) {
