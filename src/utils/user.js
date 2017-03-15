@@ -1,6 +1,10 @@
 import config from "../config";
+import Immutable from "immutable";
 
 class UserUtil {
+  static fromJS(user) {
+    return Immutable.fromJS(user);
+  }
   static getAvatar(user) {
     if (!user) {
       return config.avatarURL;

@@ -13,6 +13,7 @@ import Fetch from "../utils/fetch";
 import CircularProgress from "material-ui/CircularProgress";
 import * as SessionActions from "../redux/modules/session";
 import Snackbar from "material-ui/Snackbar";
+import UserUtil from "../utils/user";
 
 injectTapEventPlugin();
 const muiTheme = getMuiTheme(Object.assign({}, {
@@ -31,14 +32,18 @@ class Root extends Component {
   componentWillMount() {
     const {dispatch, router} = this.props;
     co(function*() {
+      dispatch(SessionActions.MessageAppend("Welcome to ToT - XJTU Online Judge"));
       const res = yield Fetch("GET")("/session/user")();
       if (res.status === 200) { // has signed in
-        dispatch(SessionActions.SignInSuccess(yield res.json()));
+        const user = UserUtil.fromJS(yield res.json());
+        dispatch(SessionActions.SignInSuccess(user));
+        dispatch(SessionActions.MessageAppend(`Welcome back, ${UserUtil.getNickname(user)}`));
         if (router.getCurrentLocation().pathname === '/index') {
           router.push('/dashboard');
         }
       } else if (res.status === 403) { // has not signed in
         dispatch(SessionActions.SignInFailed(yield res.json()));
+        dispatch(SessionActions.MessageAppend("Sign in to read more"));
         if (router.getCurrentLocation().pathname !== '/index') {
           router.push('/index');
         }
@@ -79,6 +84,7 @@ class Root extends Component {
           <Snackbar
             open={this.props.isBarOpen}
             onRequestClose={() => this.props.dispatch(SessionActions.BarClose())}
+            autoHideDuration={3000}
             message={this.props.currentMessage}
           />
         </div>
