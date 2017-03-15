@@ -173,6 +173,9 @@ class DashBoardLayout extends Component {
                 primaryText="Public"
                 leftIcon={<Sort />}
                 onTouchTap={this.handleClose}
+                onClick={() => {
+                  this.props.router.push('/dashboard/publicproblemlist')
+                }}
               />,
               <ListItem
                 key={2}

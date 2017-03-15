@@ -25,6 +25,7 @@ ReactDOM.render((
           <Route path="problem-lists/new" component={NewProblemList}/>
           <Route path="problem/view" component={ViewProblem}/>
           <Route path="biography/edit" component={BiogEdit}/>
+          <Route path="publicproblemlist" component={PublicProblemList}/>
         </Route>
       </Route>
     </Router>
