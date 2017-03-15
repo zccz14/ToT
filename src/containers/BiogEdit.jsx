@@ -66,7 +66,7 @@ class BiogEdit extends Component {
 
 function select(state) {
   return {
-    Session: state.session
+    Session: state.Session
   }
 }
 

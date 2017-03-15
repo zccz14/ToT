@@ -12,8 +12,10 @@ const SignUpFailedAction = "SIGN_UP_FAILED";
 const SignOutAction = "SIGN_OUT";
 const SignOutSuccessAction = "SIGN_OUT_SUCCESS";
 const SignOutFailedAction = "SIGN_OUT_FAILED";
+
 const NetworkAction = "NETWORK";
 const NetworkFinishAction = "NETWORK_FINISH";
+
 
 export const SignIn = createAction(SignInAction);
 export const SignInSuccess = createAction(SignInSuccessAction);

@@ -1,4 +1,4 @@
-import URLs from "../url.json";
+import URLs from "../config";
 export const Fetch = (method) => (url) => (data) => fetch(URLs.baseURL + url, {
   method,
   headers: {

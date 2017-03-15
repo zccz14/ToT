@@ -4,21 +4,10 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import AppBar from "material-ui/AppBar";
-import Drawer from "material-ui/Drawer";
 import Divider from "material-ui/Divider";
-import {ListItem} from "material-ui/List";
-import ActionGrade from "material-ui/svg-icons/action/grade";
-import ContentSend from "material-ui/svg-icons/content/send";
-import LightBulbOutline from "material-ui/svg-icons/action/lightbulb-outline";
-import Sort from "material-ui/svg-icons/content/sort";
-import List from "material-ui/svg-icons/action/list";
-import ContentCopy from "material-ui/svg-icons/content/content-copy";
-import Done from "material-ui/svg-icons/action/done";
-import Schedule from "material-ui/svg-icons/action/schedule";
-import Favorite from "material-ui/svg-icons/action/favorite";
 import Avatar from "material-ui/Avatar";
 import QuickStart from "../components/QuickStart";
-import PowerSettingsNew from "material-ui/svg-icons/action/power-settings-new";
+import TheDrawer from "../components/TheDrawer";
 import Popover from "material-ui/Popover";
 import Badge from "material-ui/Badge";
 import {amber700} from "material-ui/styles/colors";
@@ -28,7 +17,8 @@ import {Card, CardHeader, CardTitle, CardText} from "material-ui/Card";
 import * as SessionActions from "../redux/modules/session";
 import FlatButton from "material-ui/FlatButton";
 import co from "co";
-import URLs from "../url.json";
+import Fetch from "../utils/fetch";
+import Config from "../config";
 
 class DashBoardLayout extends Component {
   state = {
@@ -50,26 +40,28 @@ class DashBoardLayout extends Component {
       openAvatar: false,
     });
   };
+  onNewProblemList = () => this.props.router.push('/dashboard/problem-lists/new');
   onNewProblem = () => this.props.router.push('/dashboard/problems/new');
   onSignOut = () => {
     const {dispatch, router} = this.props;
     co(function*() {
       dispatch(SessionActions.SignOut());
-      const res = yield fetch(URLs.baseURL + "/users/sign-out", {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: 'include'
-      });
+      const res = yield Fetch("GET")("/users/sign-out")();
       if (res.status === 204) {
         dispatch(SessionActions.SignOutSuccess());
-        router.push('/');
+        router.push('/index');
       }
     });
   };
 
+  componentWillMount() {
+    if (!this.props.Session.get('user')) {
+      this.props.router.push('/index');
+    }
+  }
+
   render() {
+    const {user} = this.props;
     return (
       <div>
         <AppBar
@@ -80,7 +72,7 @@ class DashBoardLayout extends Component {
               <Avatar
                 size={50}
                 style={{marginRight: 10}}
-                src="https://www.gravatar.com/avatar/"
+                src={DashBoardLayout.getAvatar(user)}
                 onClick={this.handleTouchTag}
               />
               <Badge
@@ -103,7 +95,10 @@ class DashBoardLayout extends Component {
         <div>
           {this.props.children}
         </div>
-        <QuickStart onNewProblem={this.onNewProblem}/>
+        <QuickStart
+          onNewProblem={this.onNewProblem}
+          onNewProblemList={this.onNewProblemList}
+        />
         <Popover
           open={this.state.openAvatar}
           anchorEl={this.state.anchorEl}
@@ -114,13 +109,13 @@ class DashBoardLayout extends Component {
           <Card
             style={{width: 300}}>
             <CardHeader
-              title="Username"
-              subtitle="e-mail"
-              avatar="https://www.gravatar.com/avatar/"
+              title={DashBoardLayout.getUsername(user)}
+              subtitle={DashBoardLayout.getEmail(user)}
+              avatar={DashBoardLayout.getAvatar(user)}
             />
-            <CardTitle title="Nickname" subtitle="Biography"/>
+            <CardTitle title={DashBoardLayout.getNickname(user)} subtitle="Biography"/>
             <CardText>
-              就是我，帅若天仙的小侠女！
+              {DashBoardLayout.getBio(user)}
             </CardText>
             <Divider />
             <FlatButton
@@ -141,11 +136,15 @@ class DashBoardLayout extends Component {
             />
           </Card>
         </Popover>
-        <Drawer
-          docked={false}
-          width={270}
+        <TheDrawer
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
+          onRequestClose={() => this.setState({open: false})}
+          username={DashBoardLayout.getNickname(user)}
+          avatar={DashBoardLayout.getAvatar(user)}
+          onProblem={() => this.props.router.push('/dashboard/problems/new')}
+          onSignOut={this.onSignOut}
+        />
         >
           <ListItem
             style={{height: 80}}
@@ -251,11 +250,47 @@ class DashBoardLayout extends Component {
       </div>
     )
   }
+
+  static getNickname(user) {
+    if (!user) {
+      return "Guest";
+    }
+    return user.get('profile').get('nickname') || user.get('username');
+  }
+
+  static getBio(user) {
+    if (!user) {
+      return "Welcome to XJTUOJ";
+    }
+    return user.get('profile').get('bio') || "Boring";
+  }
+
+  static getAvatar(user) {
+    if (!user) {
+      return Config.avatarURL;
+    }
+    return user.get('profile').get('avatar') || Config.avatarURL;
+  }
+
+  static getEmail(user) {
+    if (!user) {
+      return "guest@funcxy.com";
+    }
+    return user.get('email');
+  }
+
+  static getUsername(user) {
+    if (!user) {
+      return "guest";
+    }
+    return user.get('username');
+  }
 }
 
 function select(state) {
   return {
-    Session: state.session
+    Session: state.Session,
+    user: state.Session.get('user')
   }
 }
 

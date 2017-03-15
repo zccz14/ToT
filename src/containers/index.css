@@ -59,10 +59,33 @@
     }
 }
 
+/* mobile L*/
+@media (max-width: 425px) {
+    .flex-item {
+        width: 85%;
+        margin: 15px 7.5%;
+    }
+}
+
+/* mobile M*/
 @media (max-width: 375px) {
     .flex-item {
         width: 95%;
         margin: 5px 2.5%;
     }
 
+    .sign-container {
+        position: static;
+        width: 95%;
+        margin: 5px 2.5%;
+    }
+}
+
+/* Mobile S */
+@media (max-width: 320px) {
+    .sign-container {
+        position: static;
+        width: 95%;
+        margin: 5px 2.5%;
+    }
 }
