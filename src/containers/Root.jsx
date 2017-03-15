@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 import Fetch from "../utils/fetch";
 import CircularProgress from "material-ui/CircularProgress";
 import * as SessionActions from "../redux/modules/session";
+import Snackbar from "material-ui/Snackbar";
 
 injectTapEventPlugin();
 const muiTheme = getMuiTheme(Object.assign({}, {
@@ -75,6 +76,11 @@ class Root extends Component {
               :
               null
           }
+          <Snackbar
+            open={this.props.isBarOpen}
+            onRequestClose={() => this.props.dispatch(SessionActions.BarClose())}
+            message={this.props.currentMessage}
+          />
         </div>
       </MuiThemeProvider>
     );
@@ -84,7 +90,9 @@ class Root extends Component {
 function select(state) {
   return {
     Session: state.Session,
-    isLoading: state.Session.get('network')
+    isLoading: state.Session.get('network'),
+    isBarOpen: state.Session.get('isBarOpen'),
+    currentMessage: state.Session.get('currentMessage')
   };
 }
 
