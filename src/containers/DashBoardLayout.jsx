@@ -105,7 +105,11 @@ class DashBoardLayout extends Component {
 
         />
         <div>
-          {this.props.children}
+          {
+            this.props.children ?
+              this.props.children :
+              <Guidance/>
+          }
         </div>
         <QuickStart
           onNewProblem={this.onNewProblem}
@@ -157,7 +161,6 @@ class DashBoardLayout extends Component {
           onProblem={() => this.props.router.push('/dashboard/problems')}
           onSignOut={this.onSignOut}
         />
-        <Guidance/>
       </div>
     )
   }
