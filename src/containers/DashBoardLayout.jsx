@@ -43,11 +43,12 @@ class DashBoardLayout extends Component {
   onNewProblemList = () => this.props.router.push('/dashboard/problem-lists/new');
   onNewProblem = () => this.props.router.push('/dashboard/problems/new');
   onSignOut = () => {
-    const {dispatch, router} = this.props;
+    const {dispatch, router, user} = this.props;
     co(function*() {
       dispatch(SessionActions.SignOut());
       const res = yield Fetch("GET")("/users/sign-out")();
       if (res.status === 204) {
+        dispatch(SessionActions.MessageAppend(`Goodbye, ${UserUtil.getNickname(user)}`));
         dispatch(SessionActions.SignOutSuccess());
         router.push('/index');
       }

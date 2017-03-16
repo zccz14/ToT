@@ -23,6 +23,7 @@ class Guidance extends Component {
             {
               this.props.ProblemList.get('items').map((v, i) => (
                 <ResourceItem
+                  key={i}
                   title={v.title}
                   subtitle={i}
                   onDetail={() => this.props.router.push(`/dashboard/problem-lists/${i}`)}
@@ -42,11 +43,12 @@ class Guidance extends Component {
             <Subheader inset={true}>Latest Problem Created</Subheader>
             {
               [1, 2, 3, 4].map((v, i) => (<ResourceItem
-                  title={v}
-                  subtitle={v * v * v}
-                  onEdit={() => console.log('edit', i)}
-                  onDelete={() => console.log('delete', i)}
-                  icon={<PlaylistAddCheck />}
+                key={i}
+                title={v}
+                subtitle={v * v * v}
+                onEdit={() => console.log('edit', i)}
+                onDelete={() => console.log('delete', i)}
+                icon={<PlaylistAddCheck />}
                 />)
               )
             }
@@ -60,11 +62,12 @@ class Guidance extends Component {
             <Subheader inset={true}>Submission</Subheader>
             {
               [1, 2, 3, 4].map((v, i) => (<ResourceItem
-                  title={v}
-                  subtitle={v * v * v}
-                  onEdit={() => console.log('edit', i)}
-                  onDelete={() => console.log('delete', i)}
-                  icon={<PlaylistAddCheck />}
+                key={i}
+                title={v}
+                subtitle={v * v * v}
+                onEdit={() => console.log('edit', i)}
+                onDelete={() => console.log('delete', i)}
+                icon={<PlaylistAddCheck />}
                 />)
               )
             }

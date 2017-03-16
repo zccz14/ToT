@@ -50,7 +50,8 @@ class Index extends Component {
   };
 
   onSignUp = (argSignUp) => {
-    const {dispatch, router} = this.props;
+    const self = this;
+    const {dispatch} = this.props;
     co(function*() {
       dispatch(SessionActions.SignUp());
       const res = yield Fetch("POST")("/users/sign-up")(argSignUp);
@@ -60,7 +61,7 @@ class Index extends Component {
           const user = UserUtil.fromJS(yield res.json());
           dispatch(SessionActions.SignUpSuccess(user));
           dispatch(SessionActions.MessageAppend(`Welcome freshman, ${UserUtil.getNickname(user)}`));
-          router.push('/dashboard');
+          self.onSignIn(argSignUp);
           break;
         }
         case 400: {
