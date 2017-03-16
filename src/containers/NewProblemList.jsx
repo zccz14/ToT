@@ -8,7 +8,7 @@ import co from "co";
 
 class NewProblemList extends Component {
   handleCreate = (args) => {
-    const {dispatch} = this.props;
+    const {dispatch, router} = this.props;
     co(function*() {
       dispatch(SessionActions.NetWork());
       const res = yield Fetch("POST")("/problemLists")(args);
@@ -16,6 +16,10 @@ class NewProblemList extends Component {
       if (res.status === 200) {
         const data = yield res.json();
         dispatch(ProblemListActions.Create(data));
+        dispatch(SessionActions.MessageAppend("Created Successfully"));
+        router.goBack();
+      } else {
+        dispatch(SessionActions.MessageAppend("Created Failed"));
       }
     });
   };

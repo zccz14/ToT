@@ -8,7 +8,7 @@ import * as SessionActions from "../redux/modules/session";
 
 class NewProblem extends Component {
   onCreate = (args) => {
-    const {dispatch} = this.props;
+    const {dispatch, router} = this.props;
     co(function*() {
       dispatch(SessionActions.NetWork());
       const res = yield Fetch("POST")('/problems')(args);
@@ -16,8 +16,10 @@ class NewProblem extends Component {
       if (res.status === 200) {
         const data = yield res.json();
         dispatch(ProblemActions.Create(data));
+        dispatch(SessionActions.MessageAppend("Created Successfully"));
+        router.goBack();
       } else {
-
+        dispatch(SessionActions.MessageAppend("Created Failed"));
       }
     })
   };
